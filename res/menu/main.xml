@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="sk.branislavremen.universityapp.MainActivity" >
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout_label">
+    </item>
+ 
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+
+</menu>
