@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ public class LoginActivity extends Activity {
 	protected Button loginButton;
 
 	protected TextView signUpTextView;
+	protected TextView resetPasswordTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 
 		signUpTextView = (TextView) findViewById(R.id.signUpText);
+		resetPasswordTextView = (TextView) findViewById(R.id.resetPasswordText);
 		usernameEditText = (EditText) findViewById(R.id.usernameField);
 		passwordEditText = (EditText) findViewById(R.id.passwordField);
 		loginButton = (Button) findViewById(R.id.loginButton);
@@ -40,6 +43,17 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(LoginActivity.this,
 						SignUpActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		resetPasswordTextView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(LoginActivity.this,
+						PasswordResetActivity.class);
 				startActivity(intent);
 			}
 		});

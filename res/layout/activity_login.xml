@@ -46,5 +46,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="69dp"
         android:text="@string/sign_up_text" />
+    
+    <TextView
+        android:id="@+id/resetPasswordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signUpText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/reset_password" />
  
 </RelativeLayout>

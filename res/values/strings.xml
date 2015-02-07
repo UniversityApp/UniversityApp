@@ -18,5 +18,10 @@
     <string name="logout_label">Logout</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_main">University App</string>
+    <string name="title_activity_password_reset">Password Reset</string>
+    <string name="insert_email">Insert e-mail address</string>
+    <string name="reset_password">Reset</string>
+    <string name="reset_password_succesfull">Great! Check your e-mail.</string>
+    <string name="reset_password_error">Ops! I don\'t know this email.</string>
 
 </resources>

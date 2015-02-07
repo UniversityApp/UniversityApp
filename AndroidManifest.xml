@@ -25,8 +25,8 @@
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up" >
             <meta-data
-        		android:name="android.support.PARENT_ACTIVITY"
-        		android:value="sk.branislavremen.universityapp.LoginActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sk.branislavremen.universityapp.LoginActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
@@ -36,6 +36,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".PasswordResetActivity"
+            android:label="@string/title_activity_password_reset" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sk.branislavremen.universityapp.LoginActivity" />
         </activity>
     </application>
 
