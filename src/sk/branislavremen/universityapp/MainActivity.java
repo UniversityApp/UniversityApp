@@ -8,8 +8,14 @@ import android.os.Bundle;
 import android.preference.SwitchPreference;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
+	
+	Button rssNewsButton;
+	Button eventsButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +26,19 @@ public class MainActivity extends Activity {
 		if (currentUser == null) {
 		    loadLoginView();
 		}
+		
+		rssNewsButton = (Button) findViewById(R.id.rssNewsButton);
+		eventsButton = (Button) findViewById(R.id.eventsButton);
+		
+		rssNewsButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 	
 	private void loadLoginView() {

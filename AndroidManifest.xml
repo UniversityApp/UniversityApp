@@ -44,6 +44,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="sk.branislavremen.universityapp.LoginActivity" />
         </activity>
+        <activity
+            android:name=".NewsActivity"
+            android:label="@string/title_activity_news" >
+        </activity>
+        <activity
+            android:name=".WebViewActivity"
+            android:label="@string/title_activity_web_view" >
+        </activity>
     </application>
 
 </manifest>

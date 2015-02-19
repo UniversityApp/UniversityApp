@@ -23,5 +23,9 @@
     <string name="reset_password">Reset</string>
     <string name="reset_password_succesfull">Great! Check your e-mail.</string>
     <string name="reset_password_error">Ops! I don\'t know this email.</string>
+    <string name="rssNewsButton">News</string>
+    <string name="eventsButton">Events</string>
+    <string name="title_activity_news">News</string>
+    <string name="title_activity_web_view">RSS News</string>
 
 </resources>
