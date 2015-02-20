@@ -1,11 +1,5 @@
 package sk.branislavremen.universityapp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,12 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.http.protocol.HTTP;
-
 import sk.branislavremen.universityapp.adapter.PostItemAdapter;
 import sk.branislavremen.universityapp.vo.PostData;
 import android.app.ListActivity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,7 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-public class NewsActivity extends ListActivity {
+public class PostsActivity extends ListActivity {
 
 	private PostData p;
 	private List<String> rss_links_list;
@@ -93,6 +84,7 @@ public class NewsActivity extends ListActivity {
 					// If there are results, update the list of posts
 					// and notify the adapter
 					// rss_links_list.clear();
+					setProgressBarIndeterminateVisibility(true);
 					for (ParseObject object : rssLinks) {
 						rss_links_list.add(object.getString("url"));
 						Log.e("tag", object.getString("url"));
@@ -159,6 +151,7 @@ public class NewsActivity extends ListActivity {
 
 								});
 						parser.parseAsync();
+						setProgressBarIndeterminateVisibility(false);
 					}
 
 				} else {

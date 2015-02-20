@@ -10,7 +10,7 @@ import java.util.List;
 
 import java.util.Locale;
 
-import sk.branislavremen.universityapp.NewsActivity;
+import sk.branislavremen.universityapp.PostsActivity;
 import sk.branislavremen.universityapp.R;
 import sk.branislavremen.universityapp.WebViewActivity;
 import sk.branislavremen.universityapp.vo.PostData;
@@ -33,13 +33,12 @@ public class PostItemAdapter extends BaseAdapter implements OnClickListener{
 
 	protected Activity activity;
 	protected List<PostData> items;
-	//AssetManager am;
+	
 	private static LayoutInflater inflater = null;
 
 	public PostItemAdapter(Activity activity, List<PostData> items) {
 		this.activity = activity;
 		this.items = items;
-		//this.am = am;
 
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -49,8 +48,9 @@ public class PostItemAdapter extends BaseAdapter implements OnClickListener{
 
 	/********* Create a holder Class to contain inflated xml file elements *********/
 	public static class ViewHolder {
-		public TextView textView1;
-		public TextView textView2;
+		public TextView textViewTitle;
+		public TextView textViewDate;
+		public TextView textViewThumb;
 		//public ImageView image;
 	}
 
@@ -78,13 +78,14 @@ public class PostItemAdapter extends BaseAdapter implements OnClickListener{
 			// LayoutInflater inf = (LayoutInflater)
 			// activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			/****** Inflate tabitem.xml file for each row ( Defined below ) *******/
-			v = inflater.inflate(R.layout.list_item_news, null);
+			v = inflater.inflate(R.layout.list_item_posts, null);
 
 			/****** View Holder Object to contain tabitem.xml file elements ******/
 
 			holder = new ViewHolder();
-			holder.textView1 = (TextView) v.findViewById(R.id.postTitleLabel);
-			holder.textView2 = (TextView) v.findViewById(R.id.postDateLabel);
+			holder.textViewTitle = (TextView) v.findViewById(R.id.postTitleLabel);
+			holder.textViewDate = (TextView) v.findViewById(R.id.postDateLabel);
+			holder.textViewThumb = (TextView) v.findViewById(R.id.postThumbTextView);
 			//holder.image = (ImageView) v.findViewById(R.id.imageView1);
 
 			/************ Set holder with LayoutInflater ************/
@@ -99,7 +100,8 @@ public class PostItemAdapter extends BaseAdapter implements OnClickListener{
 		// foto = (ImageView) v.findViewById(R.id.imageView1);
 
 		// Rellenamos el nombre
-		holder.textView1.setText(dir.getPostTitle());
+		holder.textViewTitle.setText(dir.getPostTitle());
+		holder.textViewThumb.setText(dir.getPostTitle().substring(0, 1));
 		// font title:
 		// holder.textView1.setTypeface(mv.getFontBold(am));
 
@@ -112,7 +114,7 @@ public class PostItemAdapter extends BaseAdapter implements OnClickListener{
 		DateFormat format = new SimpleDateFormat("dd.MMM.yyyy 'o' HH:mm");
 		String datum = format.format(d);
 		
-		holder.textView2.setText(datum);
+		holder.textViewDate.setText(datum);
 		//holder.textView2.setTypeface(mv.getFontRegular(am));
 
 		//ImageView image = holder.image;
@@ -142,7 +144,7 @@ public class PostItemAdapter extends BaseAdapter implements OnClickListener{
 
 		@Override
 		public void onClick(View arg0) {
-			NewsActivity sct = (NewsActivity) activity;
+			PostsActivity sct = (PostsActivity) activity;
 			PostData dir = items.get(mPosition);
 			Log.i("adapter", "KLIK: " + dir.getPostThumbUrl());
 			Intent intent = new Intent(activity, WebViewActivity.class);

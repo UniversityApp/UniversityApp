@@ -35,7 +35,17 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+				Intent intent = new Intent(MainActivity.this, PostsActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		eventsButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, EventsActivity.class);
 				startActivity(intent);
 			}
 		});

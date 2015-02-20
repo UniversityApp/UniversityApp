@@ -27,5 +27,6 @@
     <string name="eventsButton">Events</string>
     <string name="title_activity_news">News</string>
     <string name="title_activity_web_view">RSS News</string>
+    <string name="title_activity_events">Events and dates</string>
 
 </resources>
