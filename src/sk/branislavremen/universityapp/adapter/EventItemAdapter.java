@@ -5,13 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import sk.branislavremen.universityapp.R;
 import sk.branislavremen.universityapp.vo.EventData;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +29,14 @@ import android.widget.TextView;
 
 public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 
+	final private int DEFAULT_EVENT_DURATION = 60;
+
 	protected Activity activity;
 	protected List<EventData> items;
 
 	private static LayoutInflater inflater = null;
+
+	EventData edd;
 
 	public EventItemAdapter(Activity activity, List<EventData> items) {
 		this.activity = activity;
@@ -126,6 +134,9 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 			holder.placeTextView.setVisibility(View.GONE);
 		}
 
+		holder.dateTextView.setText(getFormatedDateString(
+				dir.getEventStartDate(), dir.getEventEndDate()));
+
 		// String pomPlaceTitle = dir.getEventPlaceData().getTitle();
 
 		/*
@@ -143,57 +154,6 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 		// nazov.setTypeface(mv.getFontBold(am));
 		// Rellenamos el cargo
 		// TextView popis = (TextView) v.findViewById(R.id.textView2);
-
-		DateFormat format = new SimpleDateFormat("dd.MM.yyyy 'o' HH:mm");
-		DateFormat formatBezHodin = new SimpleDateFormat("dd.MM.yyyy");
-		String datum1 = "";
-		String datum2 = "";
-		Date d = null;
-
-		Calendar calendar = Calendar.getInstance();
-
-		if (dir.getEventEndDate() != null) {
-
-			d = dir.getEventStartDate();
-
-			calendar.setTime(d);
-			int hours = calendar.get(Calendar.HOUR_OF_DAY);
-			int minutes = calendar.get(Calendar.MINUTE);
-
-			if (hours == 0 && minutes == 0) {
-				datum1 = formatBezHodin.format(d);
-			} else {
-				datum1 = format.format(d);
-			}
-
-			d = dir.getEventEndDate();
-
-			calendar.setTime(d);
-			hours = calendar.get(Calendar.HOUR_OF_DAY);
-			minutes = calendar.get(Calendar.MINUTE);
-
-			if (hours == 0 && minutes == 0) {
-				datum2 = formatBezHodin.format(d);
-			} else {
-				datum2 = format.format(d);
-			}
-
-			holder.dateTextView.setText(datum1 + " - " + datum2);
-		} else {
-			d = dir.getEventStartDate();
-
-			calendar.setTime(d);
-			int hours = calendar.get(Calendar.HOUR_OF_DAY);
-			int minutes = calendar.get(Calendar.MINUTE);
-
-			if (hours == 0 && minutes == 0) {
-				datum1 = formatBezHodin.format(d);
-			} else {
-				datum1 = format.format(d);
-			}
-
-			holder.dateTextView.setText(datum1);
-		}
 
 		// holder.textView2.setTypeface(mv.getFontRegular(am));
 
@@ -214,22 +174,75 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 
 	}
 
+	public String getFormatedDateString(Date date1 /* start date */, Date date2 /*
+																				 * end
+																				 * date
+																				 */) {
+
+		DateFormat format = new SimpleDateFormat("dd.MMM yyyy 'o' HH:mm");
+		DateFormat formatBezHodin = new SimpleDateFormat("dd.MMM yyyy");
+		String datum1 = "";
+		String datum2 = "";
+		String finalString = "";
+
+		Calendar calendar = Calendar.getInstance();
+
+		if (date2 != null) {
+			calendar.setTime(date1);
+			int hours = calendar.get(Calendar.HOUR_OF_DAY);
+			int minutes = calendar.get(Calendar.MINUTE);
+
+			if (hours == 0 && minutes == 0) {
+				datum1 = formatBezHodin.format(date1);
+			} else {
+				datum1 = format.format(date1);
+			}
+
+			calendar.setTime(date2);
+			hours = calendar.get(Calendar.HOUR_OF_DAY);
+			minutes = calendar.get(Calendar.MINUTE);
+
+			if (hours == 0 && minutes == 0) {
+				datum2 = formatBezHodin.format(date2);
+			} else {
+				datum2 = format.format(date2);
+			}
+
+			finalString = datum1 + " - " + datum2;
+		} else {
+
+			calendar.setTime(date1);
+			int hours = calendar.get(Calendar.HOUR_OF_DAY);
+			int minutes = calendar.get(Calendar.MINUTE);
+
+			if (hours == 0 && minutes == 0) {
+				datum1 = formatBezHodin.format(date1);
+			} else {
+				datum1 = format.format(date1);
+			}
+
+			finalString = datum1;
+		}
+
+		return finalString;
+	}
+
 	/********* Called when Item click in ListView ************/
 	private class OnItemClickListener implements OnClickListener {
 		private int mPosition;
 
 		OnItemClickListener(int position) {
 			mPosition = position;
-			
+
 		}
 
 		@Override
 		public void onClick(View arg0) {
 			// NewsActivity sct = (NewsActivity) activity;
-//			
+			//
 			EventData dir = items.get(mPosition);
 			Log.i("adapter", "KLIK: " + dir.getEventTitle());
-			showDetailDialog();
+			showDetailDialog(dir);
 			/*
 			 * Intent intent = new Intent(activity, WebViewActivity.class);
 			 * Bundle b = new Bundle(); b.putString("url",
@@ -239,13 +252,13 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 			// activity.finish();
 		}
 	}
-	
-	public void showDetailDialog() {
+
+	public void showDetailDialog(EventData ed) {
 		final Dialog dialog = new Dialog(activity);
+		this.edd = ed;
 		// dialog.setCancelable(false);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		
 		dialog.setContentView(R.layout.dialog_exist);
 		// dialog.setTitle("Pozvánka - POUŽITÁ");
 
@@ -255,17 +268,89 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 		lp4.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp4.dimAmount = 0.8f;
 
-		
-		((TextView) dialog.findViewById(R.id.dialog2_title1))
-				.setText("POZVÁNKA");
+		((TextView) dialog.findViewById(R.id.dialog_event_title)).setText(ed
+				.getEventTitle());
 
-		
-		((TextView) dialog.findViewById(R.id.dialog2_title2))
-				.setText("UPLATNENÁ");
+		if (ed.getEventDescription() != null
+				&& ed.getEventDescription().length() > 0) {
+			((TextView) dialog.findViewById(R.id.dialog_event_descr))
+					.setVisibility(View.VISIBLE);
+			((TextView) dialog.findViewById(R.id.dialog_event_descr))
+					.setText(ed.getEventDescription());
+		} else {
+			((TextView) dialog.findViewById(R.id.dialog_event_descr))
+					.setVisibility(View.GONE);
+		}
 
+		((TextView) dialog.findViewById(R.id.dialog_event_date))
+				.setText(getFormatedDateString(ed.getEventStartDate(),
+						ed.getEventEndDate()));
+
+		if (ed.getEventPlaceData() != null
+				&& ed.getEventPlaceData().length() > 0) {
+			((TextView) dialog.findViewById(R.id.dialog_event_place))
+					.setVisibility(View.VISIBLE);
+			((TextView) dialog.findViewById(R.id.dialog_event_place))
+					.setText(ed.getEventPlaceData());
+		} else {
+			((TextView) dialog.findViewById(R.id.dialog_event_place))
+					.setVisibility(View.GONE);
+		}
+
+		Button btnCancel = (Button) dialog
+				.findViewById(R.id.dialog_event_navigate_cancel);
+		btnCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		});
+
+		Button btnAddToCalendar = (Button) dialog
+				.findViewById(R.id.dialog_event_add_calendar);
+		btnAddToCalendar.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(Intent.ACTION_EDIT);
+				intent.setType("vnd.android.cursor.item/event");
+				// nadpis
+				intent.putExtra(Events.TITLE, edd.getEventTitle());
+				// zaciatok
+				intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, edd
+						.getEventStartDate().getTime());
+				// koniec
+				if (edd.getEventEndDate() != null) {
+					intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, edd
+							.getEventEndDate().getTime());
+				} else {
+					intent.putExtra(
+							CalendarContract.EXTRA_EVENT_END_TIME,
+							edd.getEventStartDate().getTime()
+									+ TimeUnit.MINUTES
+											.toMillis(DEFAULT_EVENT_DURATION));
+
+				}
+
+				// miesto
+				if (edd.getEventPlaceData() != null) {
+					intent.putExtra(Events.EVENT_LOCATION,
+							edd.getEventPlaceData());
+				}
+
+				// popis
+				if (edd.getEventDescription() != null) {
+					intent.putExtra(Events.DESCRIPTION,
+							edd.getEventDescription());
+				}
+				activity.startActivity(intent);
+			}
+		});
 
 		dialog.show();
 		dialog.getWindow().setAttributes(lp4);
 	}
-
 }

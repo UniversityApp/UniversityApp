@@ -11,18 +11,52 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/dialog2_title1"
+            android:id="@+id/dialog_event_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="abc" />
+            android:text="title" />
 
         <TextView
-            android:id="@+id/dialog2_title2"
+            android:id="@+id/dialog_event_descr"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:text="def" />
+            android:text="descr" />
+
+        <TextView
+            android:id="@+id/dialog_event_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="date" />
+
+        <TextView
+            android:id="@+id/dialog_event_place"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="place" />
+
+        <Button
+            android:id="@+id/dialog_event_add_calendar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add to calendar" />
+
+        <Button
+            android:id="@+id/dialog_event_navigate_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Navigate" />
+
+        <Button
+            android:id="@+id/dialog_event_ar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="AR" />
+
+        <Button
+            android:id="@+id/dialog_event_navigate_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="X" />
     </LinearLayout>
 
 </ScrollView>
