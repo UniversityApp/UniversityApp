@@ -4,9 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import sk.branislavremen.universityapp.vo.StudyProgrammeData;
+
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -20,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.ContactsContract.PinnedPositions;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,14 +66,20 @@ public class SettingsActivity extends Activity {
 	
 	final private String[] DEGREE_ARRAY = { "BC", "MGR" };
 	final private String[] TYPE_ARRAY = { "denné štúdium", "externé štúdium" };
-	final private String[] programmes = { "denné štúdium", "externé štúdium" };
 
-	List<String> fieldOfStudyList;
+	List<StudyProgrammeData> studyProgrammesList;
+	List<String> studyProgrammeTitlesList;
+	List<String> studyProgrammeCodeList;
+	
+	ArrayAdapter<String> autocompleteAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
+		
+		studyProgrammesList = new ArrayList<StudyProgrammeData>();
+		studyProgrammeTitlesList = new ArrayList<String>();
 
 		usernameTextView = (TextView) findViewById(R.id.settings_username_edittext);
 		titleTextView = (TextView) findViewById(R.id.settings_title_edittext);
@@ -86,8 +97,8 @@ public class SettingsActivity extends Activity {
 		studyProgrammeTextView = (AutoCompleteTextView) findViewById(R.id.settings_programme_textview);
 		
 		//autocomplet studijne odbory
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, programmes);
-		studyProgrammeTextView.setAdapter(adapter);
+		autocompleteAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, studyProgrammeTitlesList);
+		studyProgrammeTextView.setAdapter(autocompleteAdapter);
 		avatarImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -126,6 +137,10 @@ public class SettingsActivity extends Activity {
 
 			}
 		});
+		
+		//get study programmes 
+		Log.i("autocomplet", "started");
+		getStudyProgrammes();
 
 		if (ParseUser.getCurrentUser() != null) {
 			getUserData();
@@ -168,7 +183,86 @@ public class SettingsActivity extends Activity {
         }
  
     }
+	
+	public void getStudyProgrammes(){
+		studyProgrammesList.clear();
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("StudyProgrammes");
+		setProgressBarIndeterminateVisibility(true);
+		query.findInBackground(new FindCallback<ParseObject>() {
+			@Override
+			public void done(List<ParseObject> parseList, ParseException e) {
+				setProgressBarIndeterminateVisibility(false);
+				if (e == null) {
+					Log.i("autocomplet", "done ok");
+					Log.i("autocomplet", "start pin");
+					//pin in bg
+					pinAllStudyProgrammes(parseList);
+				} else {
+					Log.i("autocomplet", "error");
+					Log.e(getClass().getSimpleName(),
+							"Error: " + e.getMessage());
+					// nie je pripojenie
+				}
+			}
+		});
+	}
+	
+	public void pinAllStudyProgrammes(List<ParseObject> parseList){
+	
+		// pripnem ich do lokalnej pamate
+				ParseObject.pinAllInBackground("localStudyProgrammes", parseList,
+						new SaveCallback() {
 
+							@Override
+							public void done(ParseException e) {
+								// TODO Auto-generated method stub
+
+								if (e == null) {
+									Log.i("autocomplet", "done ok");
+									Log.i("autocomplet", "start get from local");
+									getStudyProgrammesFromLocalMemory();
+								} else {
+									Log.i("autocomplet", "error");
+									Log.e(getClass().getSimpleName(),
+											"Error: " + e.getMessage());
+								}
+							}
+						});
+	}
+	
+	public void getStudyProgrammesFromLocalMemory() {
+		ParseQuery<ParseObject> testQuery = ParseQuery.getQuery("StudyProgrammes");
+		testQuery.fromPin("localStudyProgrammes");
+		// nacitam ich z lokalnej pamate
+		testQuery.findInBackground(new FindCallback<ParseObject>() {
+
+			@Override
+			public void done(List<ParseObject> objects, ParseException e) {
+				// TODO Auto-generated
+				// method stub
+				if(e == null){
+					Log.i("autocomplet", "done ok");
+					getStudyProgrammesDataList(objects);
+				} else {
+					Log.i("autocomplet", "error");
+				}
+				
+
+			}
+		});
+	}
+
+	public void getStudyProgrammesDataList(List<ParseObject> objects){
+		for(ParseObject object:objects){
+			// pre autocomplet textview
+			studyProgrammeTitlesList.add(object.getString("Skratka") + " - " + object.getString("Popis"));
+			
+			//do lokalnej pamate
+		}
+		autocompleteAdapter.notifyDataSetChanged();
+	}
+	
 	public void getUserData() {
 
 		ParseUser pu = ParseUser.getCurrentUser();
@@ -180,6 +274,20 @@ public class SettingsActivity extends Activity {
 		emailTextView.setText(pu.getString("email"));
 
 	}
+	
+	public void setUserData() {
+
+		ParseUser pu = ParseUser.getCurrentUser();
+
+/*		usernameTextView.setText(pu.getUsername());
+		titleTextView.setText(pu.getString("Titul"));
+		nameTextView.setText(pu.getString("Meno"));
+		surnameTextView.setText(pu.getString("Priezvisko"));
+		emailTextView.setText(pu.getString("email"));
+*/
+	}
+
+	
 
 	public boolean isPasswordValidated(String pass1, String pass2) {
 		boolean result = false;
