@@ -21,4 +21,10 @@
         android:text="@string/eventsButton" 
         android:id="@+id/eventsButton"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/placesButton" 
+        android:id="@+id/placesButton"/>
+    
 </LinearLayout>

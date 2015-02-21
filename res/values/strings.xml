@@ -25,9 +25,11 @@
     <string name="reset_password_error">Ops! I don\'t know this email.</string>
     <string name="rssNewsButton">News</string>
     <string name="eventsButton">Events</string>
+    <string name="placesButton">Places</string>
     <string name="title_activity_news">News</string>
     <string name="title_activity_web_view">RSS News</string>
     <string name="title_activity_events">Events and dates</string>
     <string name="search_title">Search</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

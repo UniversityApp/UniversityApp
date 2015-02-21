@@ -1,0 +1,102 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="sk.branislavremen.universityapp.SettingsActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/settings_personal_data_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/settings_username_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="username" />
+
+            <EditText
+                android:id="@+id/settings_title_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Titul" />
+
+            <EditText
+                android:id="@+id/settings_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Meno" />
+
+            <EditText
+                android:id="@+id/settings_surname_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Priezvisko" />
+
+            <EditText
+                android:id="@+id/settings_email_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="E-mail" />
+
+            <AutoCompleteTextView
+                android:id="@+id/settings_programme_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/settings_avatar_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher" />
+
+            <Button
+                android:id="@+id/settings_save_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="save" />
+
+            <TextView
+                android:id="@+id/settings_status_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="všetky polia musia byt vyplnene" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_password_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/settings_password_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="password" />
+
+            <EditText
+                android:id="@+id/settings_password_again_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="passwd again" />
+
+            <Button
+                android:id="@+id/settings_change_password_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="change password" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
