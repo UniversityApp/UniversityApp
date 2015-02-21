@@ -28,5 +28,6 @@
     <string name="title_activity_news">News</string>
     <string name="title_activity_web_view">RSS News</string>
     <string name="title_activity_events">Events and dates</string>
+    <string name="search_title">Search</string>
 
 </resources>

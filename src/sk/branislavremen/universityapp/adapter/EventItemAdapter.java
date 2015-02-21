@@ -2,12 +2,15 @@ package sk.branislavremen.universityapp.adapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import sk.branislavremen.universityapp.EventsActivity;
 import sk.branislavremen.universityapp.R;
+import sk.branislavremen.universityapp.filter.EventFilter;
 import sk.branislavremen.universityapp.vo.EventData;
 import android.app.Activity;
 import android.app.Dialog;
@@ -25,23 +28,31 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
-public class EventItemAdapter extends BaseAdapter implements OnClickListener {
+public class EventItemAdapter extends BaseAdapter implements OnClickListener, Filterable {
 
 	final private int DEFAULT_EVENT_DURATION = 60;
+	
+	EventFilter eventFilter;
 
 	protected Activity activity;
-	protected List<EventData> items;
+	protected ArrayList<EventData> items;
+
+	public void setItems(ArrayList<EventData> items) {
+		this.items = items;
+	}
 
 	private static LayoutInflater inflater = null;
 
 	EventData edd;
 
-	public EventItemAdapter(Activity activity, List<EventData> items) {
+	public EventItemAdapter(Activity activity, ArrayList<EventData> items) {
 		this.activity = activity;
 		this.items = items;
-
+		
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -353,4 +364,22 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener {
 		dialog.show();
 		dialog.getWindow().setAttributes(lp4);
 	}
+
+	@Override
+	public Filter getFilter() {
+		// TODO Auto-generated method stub
+		 if (eventFilter == null){
+             eventFilter = new EventFilter();
+             
+             //nastavim arraylist<eventdata>
+             eventFilter.setMyEventData(items);
+             eventFilter.setAdapter(this);
+             
+		 }
+         return eventFilter;
+	}
+	
+	
+	
+	
 }
