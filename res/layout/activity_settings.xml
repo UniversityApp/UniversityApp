@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -19,11 +20,51 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="Personal data"
+                android:textAppearance="@android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/settings_avatar_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Username:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
             <EditText
                 android:id="@+id/settings_username_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:hint="username" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="E-mail:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/settings_email_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="E-mail" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
 
             <EditText
                 android:id="@+id/settings_title_edittext"
@@ -31,59 +72,147 @@
                 android:layout_height="wrap_content"
                 android:hint="Titul" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
             <EditText
                 android:id="@+id/settings_name_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Meno" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Surname:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
             <EditText
                 android:id="@+id/settings_surname_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Priezvisko" />
+        </LinearLayout>
 
-            <EditText
-                android:id="@+id/settings_email_edittext"
+        <LinearLayout
+            android:id="@+id/settings_study_data_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical" >
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="E-mail" />
+                android:layout_marginBottom="30dp"
+                android:text="Study"
+                android:textAppearance="@android:attr/textAppearanceMedium" />
 
-            <AutoCompleteTextView
-                android:id="@+id/settings_programme_textview"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fakulta:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <Spinner
+                android:id="@+id/settings_fakulta_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:prompt="@string/choose" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stupen:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <Spinner
+                android:id="@+id/settings_stupen_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:prompt="@string/choose"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Forma studia:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <Spinner
+                android:id="@+id/settings_forma_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/settings_avatar_imageview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-
-            <Button
-                android:id="@+id/settings_save_button"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="save" />
+                android:text="Druh studia:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <Spinner
+                android:id="@+id/settings_druh_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/settings_status_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="všetky polia musia byt vyplnene" />
+                android:text="Študijny program:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <Spinner
+                android:id="@+id/settings_program_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rocnik:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/settings_rocnik_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="rocnik"
+                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/settings_password_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="Zmena hesla"
+                android:textAppearance="@android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="zadajte heslo:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
 
             <EditText
                 android:id="@+id/settings_password_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="password" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="zopakujte heslo:"
+                android:textAppearance="@android:attr/textAppearanceSmall" />
 
             <EditText
                 android:id="@+id/settings_password_again_edittext"
@@ -95,7 +224,7 @@
                 android:id="@+id/settings_change_password_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="change password" />
+                android:text="zmen heslo" />
         </LinearLayout>
     </LinearLayout>
 

@@ -3,9 +3,13 @@
     tools:context="sk.branislavremen.universityapp.SettingsActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_done"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:showAsAction="always"
+        android:title="@string/action_save_settings"/>
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout_label"/>
 
 </menu>
