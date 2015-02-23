@@ -1,6 +1,7 @@
 package sk.branislavremen.universityapp;
 
 import java.io.ByteArrayOutputStream;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -46,12 +52,16 @@ public class SettingsActivity extends Activity {
 	// init
 	final int PASSWORD_LENG = 6;
 	final int RESULT_LOAD_IMG = 1;
-	final String[] FAKULTA_ARRAY = {"FPV","FF","PF","FSVAZ","FSS"};
-	final String[] STUPEN_ARRAY = {"Bakalársky I. St.","Magisterský II. St.",
-			"Doktorandské III. St.","Iné(RNDr.) N st.","Iné(PaedDr.) N st.", "Iné N st."};
-	final String[] FORMA_ARRAY = {"Denná forma","Externá forma"};
-	final String[] DRUH_ARRAY = {"Jednoodborové štúdium","Uèite¾ské štúdium",
-			"Rigorózne štúdium","Rozširujúce štúdium","FSS"};
+	final String SPINNER_DEFAULT_VALUE = "Vyberte si z možností...";
+
+	final String[] EMPTY_ARRAY = { SPINNER_DEFAULT_VALUE };
+	final String[] FAKULTA_ARRAY = { "FPV", "FF", "PF", "FSVAZ", "FSS" };
+	final String[] STUPEN_ARRAY = { "Bakalársky I. St.", "Magisterský II. St.",
+			"Doktorandské III. St.", "Iné(RNDr.) N st.", "Iné(PaedDr.) N st.",
+			"Iné N st." };
+	final String[] FORMA_ARRAY = { "Denná forma", "Externá forma" };
+	final String[] DRUH_ARRAY = { "Jednoodborové štúdium", "Uèite¾ské štúdium",
+			"Rigorózne štúdium", "Rozširujúce štúdium" };
 
 	String pictureString;
 	Drawable pictureDraw;
@@ -67,25 +77,33 @@ public class SettingsActivity extends Activity {
 	TextView password2TextView;
 
 	ImageView avatarImageView;
-	
+
 	Spinner fakultaSpinner;
 	Spinner stupenStudiaSpinner;
 	Spinner formaSpinner;
 	Spinner druhStudiaSpinner;
 	Spinner programSpinner;
-	
+
+	ArrayAdapter<String> emptyAdapter;
+	ArrayAdapter<String> fakultaAdapter;
+	ArrayAdapter<String> stupenStudiaAdapter;
+	ArrayAdapter<String> formaAdapter;
+	ArrayAdapter<String> druhStudiaAdapter;
+	ArrayAdapter<String> programAdapter;
+
 	EditText rocnikEditText;
 
-	//Button saveButton;
+	// Button saveButton;
 	Button changePasswordButton;
 
-	//AutoCompleteTextView studyProgrammeTextView;
+	// AutoCompleteTextView studyProgrammeTextView;
 
-	//List<StudyProgrammeData> studyProgrammesList;
+	// List<StudyProgrammeData> studyProgrammesList;
 	List<String> studyProgrammeTitlesList;
 	List<String> studyProgrammeCodeList;
 
-	ArrayAdapter<String> autocompleteAdapter;
+	OnItemSelectedListener myOnItemSelectedListener;
+	// ArrayAdapter<String> autocompleteAdapter;
 
 	boolean isNewAvatarLoaded;
 
@@ -96,9 +114,27 @@ public class SettingsActivity extends Activity {
 
 		isNewAvatarLoaded = false;
 
-		//studyProgrammesList = new ArrayList<StudyProgrammeData>();
+		// studyProgrammesList = new ArrayList<StudyProgrammeData>();
 		studyProgrammeTitlesList = new ArrayList<String>();
 		studyProgrammeCodeList = new ArrayList<String>();
+
+		myOnItemSelectedListener = new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				if (isAllSpinnersFilled()) {
+					getStudyProgrammes();
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		};
 
 		usernameTextView = (TextView) findViewById(R.id.settings_username_edittext);
 		titleTextView = (TextView) findViewById(R.id.settings_title_edittext);
@@ -109,40 +145,93 @@ public class SettingsActivity extends Activity {
 		password2TextView = (TextView) findViewById(R.id.settings_password_again_edittext);
 
 		avatarImageView = (ImageView) findViewById(R.id.settings_avatar_imageview);
-		
+
 		fakultaSpinner = (Spinner) findViewById(R.id.settings_fakulta_spinner);
 		stupenStudiaSpinner = (Spinner) findViewById(R.id.settings_stupen_spinner);
 		formaSpinner = (Spinner) findViewById(R.id.settings_forma_spinner);
 		druhStudiaSpinner = (Spinner) findViewById(R.id.settings_druh_spinner);
 		programSpinner = (Spinner) findViewById(R.id.settings_program_spinner);
-		
-		ArrayAdapter<String> fakultaAdapter = new ArrayAdapter<String>(this,
-	                android.R.layout.simple_spinner_item, FAKULTA_ARRAY);
-		ArrayAdapter<String> stuperStudiaAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, STUPEN_ARRAY);
-		ArrayAdapter<String> formaAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, FORMA_ARRAY);
-		ArrayAdapter<String> druhStudiaAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, DRUH_ARRAY);
-		
-		fakultaSpinner.setAdapter(fakultaAdapter);
-		stupenStudiaSpinner.setAdapter(stuperStudiaAdapter);
-		formaSpinner.setAdapter(formaAdapter);
-		druhStudiaSpinner.setAdapter(druhStudiaAdapter);
-		
-		
+
+		emptyAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, EMPTY_ARRAY);
+		fakultaAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, FAKULTA_ARRAY);
+		stupenStudiaAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, STUPEN_ARRAY);
+		formaAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, FORMA_ARRAY);
+		druhStudiaAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, DRUH_ARRAY);
+		programAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, studyProgrammeTitlesList);
+
+		fakultaSpinner.setAdapter(emptyAdapter);
+		stupenStudiaSpinner.setAdapter(emptyAdapter);
+		formaSpinner.setAdapter(emptyAdapter);
+		druhStudiaSpinner.setAdapter(emptyAdapter);
+		programSpinner.setAdapter(programAdapter);
+
+		programSpinner.setEnabled(false);
+
+		fakultaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
+		stupenStudiaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
+		formaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
+		druhStudiaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
+
+		fakultaSpinner.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				fakultaSpinner.setAdapter(fakultaAdapter);
+				return false;
+			}
+		});
+
+		stupenStudiaSpinner.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				stupenStudiaSpinner.setAdapter(stupenStudiaAdapter);
+				return false;
+			}
+		});
+
+		formaSpinner.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				formaSpinner.setAdapter(formaAdapter);
+				return false;
+			}
+		});
+
+		druhStudiaSpinner.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				druhStudiaSpinner.setAdapter(druhStudiaAdapter);
+				return false;
+			}
+		});
+
 		rocnikEditText = (EditText) findViewById(R.id.settings_rocnik_edittext);
 
-		//saveButton = (Button) findViewById(R.id.settings_save_button);
+		// saveButton = (Button) findViewById(R.id.settings_save_button);
 		changePasswordButton = (Button) findViewById(R.id.settings_change_password_button);
 
-		//studyProgrammeTextView = (AutoCompleteTextView) findViewById(R.id.settings_programme_textview);
+		// studyProgrammeTextView = (AutoCompleteTextView)
+		// findViewById(R.id.settings_programme_textview);
 
 		// autocomplet studijne odbory
-	/*	autocompleteAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, studyProgrammeTitlesList);
-		studyProgrammeTextView.setAdapter(autocompleteAdapter);
-*/
+		/*
+		 * autocompleteAdapter = new ArrayAdapter<String>(this,
+		 * android.R.layout.simple_list_item_1, studyProgrammeTitlesList);
+		 * studyProgrammeTextView.setAdapter(autocompleteAdapter);
+		 */
 		avatarImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -159,7 +248,6 @@ public class SettingsActivity extends Activity {
 			}
 		});
 
-	
 		changePasswordButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -176,10 +264,26 @@ public class SettingsActivity extends Activity {
 
 		// get study programmes
 		Log.i("autocomplet", "started");
-		//getStudyProgrammes();
+		// getStudyProgrammes();
 
 		if (ParseUser.getCurrentUser() != null) {
 			getUserData();
+		}
+
+	}
+
+	public boolean isAllSpinnersFilled() {
+		if (!fakultaSpinner.getSelectedItem().toString()
+				.equals(SPINNER_DEFAULT_VALUE)
+				&& !stupenStudiaSpinner.getSelectedItem().equals(
+						SPINNER_DEFAULT_VALUE)
+				&& !formaSpinner.getSelectedItem().toString()
+						.equals(SPINNER_DEFAULT_VALUE)
+				&& !fakultaSpinner.getSelectedItem().toString()
+						.equals(SPINNER_DEFAULT_VALUE)) {
+			return true;
+		} else {
+			return false;
 		}
 
 	}
@@ -207,7 +311,7 @@ public class SettingsActivity extends Activity {
 				pictureBitMap = BitmapFactory.decodeFile(pictureString);
 				// Set the Image in ImageView after decoding the String
 				avatarImageView.setImageBitmap(pictureBitMap);
-				
+
 				isNewAvatarLoaded = true;
 
 			} else {
@@ -221,22 +325,26 @@ public class SettingsActivity extends Activity {
 
 	}
 
-	/* nacitanie studijnych programov pre autocomplettextview - ZACIATOK*/
+	/* nacitanie studijnych programov pre autocomplettextview - ZACIATOK */
 	public void getStudyProgrammes() {
-		//studyProgrammesList.clear();
+		// studyProgrammesList.clear();
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("StudyProgrammes");
 		setProgressBarIndeterminateVisibility(true);
-		query.whereEqualTo("Forma", "Externá forma");
+		query.whereEqualTo("Fakulta", fakultaSpinner.getSelectedItem()
+				.toString());
+		query.whereEqualTo("DruhStudia", druhStudiaSpinner.getSelectedItem()
+				.toString());
+		query.whereEqualTo("Forma", formaSpinner.getSelectedItem()
+				.toString());
+		query.whereEqualTo("Stupen", stupenStudiaSpinner.getSelectedItem()
+				.toString());
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> parseList, ParseException e) {
 				setProgressBarIndeterminateVisibility(false);
 				if (e == null) {
 					Log.i("autocomplet", "done ok");
-					//Log.i("autocomplet", "start pin");
-					// pin in bg
-					//pinAllStudyProgrammes(parseList);
 					getStudyProgrammesDataList(parseList);
 				} else {
 					Log.i("autocomplet", "error");
@@ -248,20 +356,23 @@ public class SettingsActivity extends Activity {
 		});
 	}
 
-	
 	public void getStudyProgrammesDataList(List<ParseObject> objects) {
+		int pocitadlo = 0;
 		for (ParseObject object : objects) {
 			// pre autocomplet textview
+			pocitadlo++;
 			studyProgrammeTitlesList.add(object.getString("Skratka") + " - "
 					+ object.getString("Popis"));
-			// studyProgrammeTitlesList.add(object.getString("Skratka") + " - "
-			// + object.getString("Popis"));
-			// do lokalnej pamate
 		}
-		autocompleteAdapter.notifyDataSetChanged();
+		Log.d("debug", "pocet:" + pocitadlo);
+		// autocompleteAdapter.notifyDataSetChanged();
+		programAdapter.notifyDataSetChanged();
+		programSpinner.setEnabled(true);
+
 	}
-	/* nacitanie studijnych programov pre autocomplettextview - KONIEC*/
-	
+
+	/* nacitanie studijnych programov pre autocomplettextview - KONIEC */
+
 	/* nacitanie dat do UI - zaciatok */
 	public void getUserData() {
 
@@ -272,35 +383,35 @@ public class SettingsActivity extends Activity {
 		nameTextView.setText(pu.getString("Meno"));
 		surnameTextView.setText(pu.getString("Priezvisko"));
 		emailTextView.setText(pu.getString("email"));
-		
+
 		ParseFile pf = pu.getParseFile("Picture");
-		Bitmap bm =getBitmapFromParseFile(pf);
+		Bitmap bm = getBitmapFromParseFile(pf);
 	}
-	
-	public Bitmap getBitmapFromParseFile(ParseFile pf){
-		
+
+	public Bitmap getBitmapFromParseFile(ParseFile pf) {
+
 		return null;
 	}
+
 	/* nacitanie dat do UI - koniec */
-	
 
 	/* UPDATE PROFILU POUZIVATELA - ZACIATOK */
 
-	public boolean isAllFilled() {
+	public boolean isAllProfileFilled() {
 		boolean result = false;
-		
+
 		if (titleTextView.getText().toString().length() == 0) {
 			result = true;
 		}
-		
+
 		if (nameTextView.getText().toString().length() == 0) {
 			result = true;
 		}
-		
+
 		if (surnameTextView.getText().toString().length() == 0) {
 			result = true;
 		}
-		
+
 		if (!isProgrammeFromList()) {
 			result = true;
 		}
@@ -315,21 +426,22 @@ public class SettingsActivity extends Activity {
 	 */
 	public boolean isProgrammeFromList() {
 		boolean result = false;
-		/*String text = studyProgrammeTextView.getText().toString();
-		if (studyProgrammeTitlesList.contains(text) && text.length() > 0) {
-			result = true;
-		}*/
+		/*
+		 * String text = studyProgrammeTextView.getText().toString(); if
+		 * (studyProgrammeTitlesList.contains(text) && text.length() > 0) {
+		 * result = true; }
+		 */
 		return result;
 	}
-	
-	public void save(){
-		if (isAllFilled()) {
+
+	public void save() {
+		if (isAllProfileFilled()) {
 			setUserData();
 		} else {
 			// upozornit ze treba vsetko vyplnit
 		}
 	}
-	
+
 	public void setUserData() {
 
 		// tu riesim aj upload obrazku/avataru
@@ -337,25 +449,26 @@ public class SettingsActivity extends Activity {
 
 		ParseUser pu = ParseUser.getCurrentUser();
 
-		pu.put("Titul", titleTextView.getText().toString() );
-		pu.put("Meno", nameTextView.getText().toString() );
+		pu.put("Titul", titleTextView.getText().toString());
+		pu.put("Meno", nameTextView.getText().toString());
 		pu.put("Priezvisko", surnameTextView.getText().toString());
-		//pu.put("StudyProgramme", studyProgrammeTextView.getText().toString());
-		
-		if(isNewAvatarLoaded){
+		// pu.put("StudyProgramme",
+		// studyProgrammeTextView.getText().toString());
+
+		if (isNewAvatarLoaded) {
 			pu.put("Picture", getImageParseFile());
 		}
-		
+
 		pu.saveInBackground(new SaveCallback() {
-			
+
 			@Override
 			public void done(ParseException e) {
 				// TODO Auto-generated method stub
-				if(e == null){
-					//ok
+				if (e == null) {
+					// ok
 					Log.i("update profil", "updated ok!");
 				} else {
-					//error
+					// error
 					Log.e("update profil", "update error!");
 				}
 			}
@@ -367,8 +480,9 @@ public class SettingsActivity extends Activity {
 
 	/* VYBER OBRAZKA Z GALERIE - ZACIATOK */
 	public ParseFile getImageParseFile() {
-		//Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher);
-		//Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+		// Drawable drawable =
+		// getResources().getDrawable(R.drawable.ic_launcher);
+		// Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		pictureBitMap.compress(Bitmap.CompressFormat.JPEG, 75, stream);
 		byte[] data = stream.toByteArray();
@@ -413,6 +527,7 @@ public class SettingsActivity extends Activity {
 			}
 		});
 	}
+
 	/* ZMENA HESLA KONIEC */
 
 	/* MENU */
