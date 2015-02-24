@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dropdown="http://schemas.android.com/apk/res/sk.branislavremen.universityapp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:id="@+id/settings_scrollview">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Studiny program" />
+
+            <sk.branislavremen.universityapp.view.DropDown
+                android:id="@+id/dropdown_fakulta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/fakulty"
+                dropdown:titleText="Vyber fakultu" />
+
+            <sk.branislavremen.universityapp.view.DropDown
+                android:id="@+id/dropdown_stupen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/stupneStudia"
+                dropdown:titleText="Vyber stupen studia" />
+
+            <sk.branislavremen.universityapp.view.DropDown
+                android:id="@+id/dropdown_forma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/formyStudia"
+                dropdown:titleText="Vyber formu studia" />
+
+            <sk.branislavremen.universityapp.view.DropDown
+                android:id="@+id/dropdown_druh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/druhyStudia"
+                dropdown:titleText="Vyber druh studia" />
+
+            <sk.branislavremen.universityapp.view.DropDown
+                android:id="@+id/dropdown_rocnik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/rocniky"
+                dropdown:titleText="Rocnik" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ListView
+        android:id="@+id/settings_studyprogramme"
+        android:choiceMode="singleChoice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

@@ -1,5 +1,7 @@
 package sk.branislavremen.universityapp;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import android.app.Activity;
@@ -24,9 +26,20 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ParseUser currentUser = ParseUser.getCurrentUser();
+		final ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
 			loadLoginView();
+		} else {
+			currentUser.fetchInBackground(new GetCallback<ParseUser>() {
+
+				@Override
+				public void done(ParseUser object, ParseException e) {
+					// TODO Auto-generated method stub
+					if(!currentUser.getBoolean("isAllFilled")){
+						loadSettingsView();
+					}
+				}
+			});
 		}
 
 		rssNewsButton = (Button) findViewById(R.id.rssNewsButton);

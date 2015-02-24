@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DropDown">
+        <attr name="arrowImage" format="integer" />
+        <attr name="listBackgroundColor" format="integer" />
+        <attr name="listDividerColor" format="integer" />
+        <attr name="titleText" format="string" localization="suggested" />
+        <attr name="titleColor" format="color" />
+        <attr name="titleBackground" format="integer" />
+        <attr name="android:entries" />
+    </declare-styleable>
+
+</resources>

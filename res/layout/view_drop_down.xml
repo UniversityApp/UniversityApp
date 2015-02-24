@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TextView
+        android:id="@+id/dropDown_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/dropDown_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/dropDown_title"
+        android:layout_alignTop="@+id/dropDown_title"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@android:drawable/arrow_down_float" />
+
+    <ListView
+        android:id="@+id/dropDown_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dropDown_title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#00000000"
+        android:cacheColorHint="#00000000"
+        android:scrollbars="none" />
+
+</merge>

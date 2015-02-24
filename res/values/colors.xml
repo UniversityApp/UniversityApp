@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dropdown_list_background_green">#ececec</color>
+    <color name="dropdown_list_divider_blue">#ffffff</color>
+</resources>

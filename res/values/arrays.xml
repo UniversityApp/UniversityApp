@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fakulty">
+        <item>FPV</item>
+        <item>FF</item>
+        <item>PF</item>
+        <item>FSVAZ</item>
+        <item>FSS</item>
+    </string-array>
+    <string-array name="stupneStudia">
+        <item>Bakalársky I. St.</item>
+        <item>Magisterský II. St.</item>
+        <item>Doktorandské III. St.</item>
+        <item>Iné(RNDr.) N st.</item>
+        <item>Iné(PaedDr.) N st.</item>
+        <item>Iné N st.</item>
+    </string-array>
+    <string-array name="formyStudia">
+        <item>Denná forma</item>
+        <item>Externá forma</item>
+    </string-array>
+    <string-array name="druhyStudia">
+        <item>Jednoodborové štúdium</item>
+        <item>Učiteľské štúdium</item>
+        <item>Rigorózne štúdium</item>
+        <item>Rozširujúce štúdium</item>
+    </string-array>
+    <string-array name="rocniky">
+        <item>1.</item>
+        <item>2.</item>
+        <item>3	.</item>
+    </string-array>
+
+</resources>
