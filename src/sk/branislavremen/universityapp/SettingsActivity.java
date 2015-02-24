@@ -331,9 +331,7 @@ public class SettingsActivity extends Activity {
 	public boolean isAllProfileFilled() {
 		boolean result = true;
 
-		if (titleTextView.getText() == null | titleTextView.getText().equals(titleTextView.getHint())) {
-			result = false;
-		}
+		
 
 		if (nameTextView.getText() == null | nameTextView.getText().equals(nameTextView.getHint())) {
 			result = false;

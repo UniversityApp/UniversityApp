@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
 	Button eventsButton;
 	Button placesButton;
 	Button chatButton;
+	Button feedbackButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class MainActivity extends Activity {
 		eventsButton = (Button) findViewById(R.id.eventsButton);
 		placesButton = (Button) findViewById(R.id.placesButton);
 		chatButton = (Button) findViewById(R.id.chatButton);
+		feedbackButton = (Button) findViewById(R.id.feedbackButton);
 
 		rssNewsButton.setOnClickListener(new OnClickListener() {
 
@@ -93,6 +95,18 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this,
 						ChatActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+
+		feedbackButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this,
+						FeedbackActivity.class);
 				startActivity(intent);
 			}
 		});

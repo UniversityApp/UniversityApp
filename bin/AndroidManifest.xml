@@ -85,6 +85,10 @@
             android:name=".PlaceActivity"
             android:label="@string/title_activity_place" >
         </activity>
+        <activity
+            android:name=".FeedbackActivity"
+            android:label="@string/title_activity_feedback" >
+        </activity>
     </application>
 
 </manifest>

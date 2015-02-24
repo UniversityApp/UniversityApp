@@ -15,7 +15,7 @@ public class InitApplication extends Application {
 	public void onCreate() {
 	    super.onCreate();
 	    ParseObject.registerSubclass(MessageData.class);
-	    Parse.enableLocalDatastore(this);
+	 //   Parse.enableLocalDatastore(this);
 	    Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
 	 
 	}
