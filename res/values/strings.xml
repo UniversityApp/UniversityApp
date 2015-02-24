@@ -37,5 +37,6 @@
     <string name="title_activity_settings_study">Settings - Study</string>
     <string name="title_activity_place">Miesta</string>
     <string name="title_activity_feedback">Feedback</string>
+    <string name="title_activity_ar">ArActivity</string>
 
 </resources>

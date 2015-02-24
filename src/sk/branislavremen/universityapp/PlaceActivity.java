@@ -16,6 +16,7 @@ import sk.branislavremen.universityapp.vo.EventData;
 import sk.branislavremen.universityapp.vo.PlaceData;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -81,7 +82,7 @@ public class PlaceActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.settings, menu);
+		getMenuInflater().inflate(R.menu.place, menu);
 		return true;
 	}
 
@@ -99,7 +100,9 @@ public class PlaceActivity extends ListActivity {
 
 		case R.id.action_ar:
 			//open ar view
-		
+			Intent intent = new Intent(PlaceActivity.this,
+					ArActivity.class);
+			startActivity(intent);
 			break;
 
 		default:

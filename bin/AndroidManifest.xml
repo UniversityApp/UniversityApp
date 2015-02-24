@@ -13,6 +13,9 @@
     <!-- pre výber avataru -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- pre AR -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".InitApplication"
@@ -88,6 +91,10 @@
         <activity
             android:name=".FeedbackActivity"
             android:label="@string/title_activity_feedback" >
+        </activity>
+        <activity
+            android:name=".ArActivity"
+            android:label="@string/title_activity_ar" >
         </activity>
     </application>
 
