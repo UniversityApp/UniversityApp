@@ -3,9 +3,14 @@ package sk.branislavremen.universityapp;
 import java.io.ByteArrayOutputStream;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import sk.branislavremen.universityapp.adapter.StudyProgrammesExpListViewAdapter;
+
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -41,6 +46,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -73,37 +80,29 @@ public class SettingsActivity extends Activity {
 	TextView nameTextView;
 	TextView surnameTextView;
 	TextView emailTextView;
+	
 	TextView password1TextView;
 	TextView password2TextView;
 
 	ImageView avatarImageView;
 
-	Spinner fakultaSpinner;
-	Spinner stupenStudiaSpinner;
-	Spinner formaSpinner;
-	Spinner druhStudiaSpinner;
-	Spinner programSpinner;
-
-	ArrayAdapter<String> emptyAdapter;
-	ArrayAdapter<String> fakultaAdapter;
-	ArrayAdapter<String> stupenStudiaAdapter;
-	ArrayAdapter<String> formaAdapter;
-	ArrayAdapter<String> druhStudiaAdapter;
-	ArrayAdapter<String> programAdapter;
-
+	StudyProgrammesExpListViewAdapter studyProgrammesAdapter;
+	ExpandableListView fakultaListView;
+	ExpandableListView stupenListView;
+	ExpandableListView formaListView;
+	ExpandableListView druhListView;
+	ExpandableListView programListView;
+	
 	EditText rocnikEditText;
 
 	// Button saveButton;
 	Button changePasswordButton;
 
-	// AutoCompleteTextView studyProgrammeTextView;
-
-	// List<StudyProgrammeData> studyProgrammesList;
 	List<String> studyProgrammeTitlesList;
 	List<String> studyProgrammeCodeList;
 
-	OnItemSelectedListener myOnItemSelectedListener;
-	// ArrayAdapter<String> autocompleteAdapter;
+
+
 
 	boolean isNewAvatarLoaded;
 
@@ -113,28 +112,11 @@ public class SettingsActivity extends Activity {
 		setContentView(R.layout.activity_settings);
 
 		isNewAvatarLoaded = false;
-
-		// studyProgrammesList = new ArrayList<StudyProgrammeData>();
+		
 		studyProgrammeTitlesList = new ArrayList<String>();
 		studyProgrammeCodeList = new ArrayList<String>();
-
-		myOnItemSelectedListener = new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				if (isAllSpinnersFilled()) {
-					getStudyProgrammes();
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
-
-			}
-		};
+		
+		
 
 		usernameTextView = (TextView) findViewById(R.id.settings_username_edittext);
 		titleTextView = (TextView) findViewById(R.id.settings_title_edittext);
@@ -146,92 +128,10 @@ public class SettingsActivity extends Activity {
 
 		avatarImageView = (ImageView) findViewById(R.id.settings_avatar_imageview);
 
-		fakultaSpinner = (Spinner) findViewById(R.id.settings_fakulta_spinner);
-		stupenStudiaSpinner = (Spinner) findViewById(R.id.settings_stupen_spinner);
-		formaSpinner = (Spinner) findViewById(R.id.settings_forma_spinner);
-		druhStudiaSpinner = (Spinner) findViewById(R.id.settings_druh_spinner);
-		programSpinner = (Spinner) findViewById(R.id.settings_program_spinner);
-
-		emptyAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, EMPTY_ARRAY);
-		fakultaAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, FAKULTA_ARRAY);
-		stupenStudiaAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, STUPEN_ARRAY);
-		formaAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, FORMA_ARRAY);
-		druhStudiaAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, DRUH_ARRAY);
-		programAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, studyProgrammeTitlesList);
-
-		fakultaSpinner.setAdapter(emptyAdapter);
-		stupenStudiaSpinner.setAdapter(emptyAdapter);
-		formaSpinner.setAdapter(emptyAdapter);
-		druhStudiaSpinner.setAdapter(emptyAdapter);
-		programSpinner.setAdapter(programAdapter);
-
-		programSpinner.setEnabled(false);
-
-		fakultaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
-		stupenStudiaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
-		formaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
-		druhStudiaSpinner.setOnItemSelectedListener(myOnItemSelectedListener);
-
-		fakultaSpinner.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				fakultaSpinner.setAdapter(fakultaAdapter);
-				return false;
-			}
-		});
-
-		stupenStudiaSpinner.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				stupenStudiaSpinner.setAdapter(stupenStudiaAdapter);
-				return false;
-			}
-		});
-
-		formaSpinner.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				formaSpinner.setAdapter(formaAdapter);
-				return false;
-			}
-		});
-
-		druhStudiaSpinner.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				druhStudiaSpinner.setAdapter(druhStudiaAdapter);
-				return false;
-			}
-		});
-
 		rocnikEditText = (EditText) findViewById(R.id.settings_rocnik_edittext);
 
-		// saveButton = (Button) findViewById(R.id.settings_save_button);
 		changePasswordButton = (Button) findViewById(R.id.settings_change_password_button);
 
-		// studyProgrammeTextView = (AutoCompleteTextView)
-		// findViewById(R.id.settings_programme_textview);
-
-		// autocomplet studijne odbory
-		/*
-		 * autocompleteAdapter = new ArrayAdapter<String>(this,
-		 * android.R.layout.simple_list_item_1, studyProgrammeTitlesList);
-		 * studyProgrammeTextView.setAdapter(autocompleteAdapter);
-		 */
 		avatarImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -262,31 +162,13 @@ public class SettingsActivity extends Activity {
 			}
 		});
 
-		// get study programmes
-		Log.i("autocomplet", "started");
-		// getStudyProgrammes();
-
 		if (ParseUser.getCurrentUser() != null) {
 			getUserData();
 		}
 
 	}
+	
 
-	public boolean isAllSpinnersFilled() {
-		if (!fakultaSpinner.getSelectedItem().toString()
-				.equals(SPINNER_DEFAULT_VALUE)
-				&& !stupenStudiaSpinner.getSelectedItem().equals(
-						SPINNER_DEFAULT_VALUE)
-				&& !formaSpinner.getSelectedItem().toString()
-						.equals(SPINNER_DEFAULT_VALUE)
-				&& !fakultaSpinner.getSelectedItem().toString()
-						.equals(SPINNER_DEFAULT_VALUE)) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -331,14 +213,14 @@ public class SettingsActivity extends Activity {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("StudyProgrammes");
 		setProgressBarIndeterminateVisibility(true);
-		query.whereEqualTo("Fakulta", fakultaSpinner.getSelectedItem()
+		/*query.whereEqualTo("Fakulta", fakultaSpinner.getSelectedItem()
 				.toString());
 		query.whereEqualTo("DruhStudia", druhStudiaSpinner.getSelectedItem()
 				.toString());
 		query.whereEqualTo("Forma", formaSpinner.getSelectedItem()
 				.toString());
 		query.whereEqualTo("Stupen", stupenStudiaSpinner.getSelectedItem()
-				.toString());
+				.toString());*/
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> parseList, ParseException e) {
@@ -366,8 +248,7 @@ public class SettingsActivity extends Activity {
 		}
 		Log.d("debug", "pocet:" + pocitadlo);
 		// autocompleteAdapter.notifyDataSetChanged();
-		programAdapter.notifyDataSetChanged();
-		programSpinner.setEnabled(true);
+		//adapter refresh !!!!!!!!!§§ HERE!!!!
 
 	}
 
@@ -376,21 +257,27 @@ public class SettingsActivity extends Activity {
 	/* nacitanie dat do UI - zaciatok */
 	public void getUserData() {
 
-		ParseUser pu = ParseUser.getCurrentUser();
+		ParseUser myParseUser = ParseUser.getCurrentUser();
 
-		usernameTextView.setText(pu.getUsername());
-		titleTextView.setText(pu.getString("Titul"));
-		nameTextView.setText(pu.getString("Meno"));
-		surnameTextView.setText(pu.getString("Priezvisko"));
-		emailTextView.setText(pu.getString("email"));
+		usernameTextView.setText(myParseUser.getUsername());
+		titleTextView.setText(myParseUser.getString("Title"));
+		nameTextView.setText(myParseUser.getString("Name"));
+		surnameTextView.setText(myParseUser.getString("Surname"));
+		emailTextView.setText(myParseUser.getString("email"));
 
-		ParseFile pf = pu.getParseFile("Picture");
-		Bitmap bm = getBitmapFromParseFile(pf);
-	}
-
-	public Bitmap getBitmapFromParseFile(ParseFile pf) {
-
-		return null;
+		ParseFile imageFile = (ParseFile) myParseUser.get("Picture");
+		imageFile.getDataInBackground(new GetDataCallback() {
+		  public void done(byte[] data, ParseException e) {
+		    if (e == null) {
+		      // data has the bytes for the image
+		    	pictureBitMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		    	avatarImageView.setImageBitmap(pictureBitMap);
+		    } else {
+		      // something went wrong
+		    }
+		  }
+		});
+		
 	}
 
 	/* nacitanie dat do UI - koniec */
@@ -456,7 +343,7 @@ public class SettingsActivity extends Activity {
 		// studyProgrammeTextView.getText().toString());
 
 		if (isNewAvatarLoaded) {
-			pu.put("Picture", getImageParseFile());
+			pu.put("Picture", newImageParseFile());
 		}
 
 		pu.saveInBackground(new SaveCallback() {
@@ -479,7 +366,7 @@ public class SettingsActivity extends Activity {
 	/* UPDATE PROFILU POUZIVATELA - KONIEC */
 
 	/* VYBER OBRAZKA Z GALERIE - ZACIATOK */
-	public ParseFile getImageParseFile() {
+	public ParseFile newImageParseFile() {
 		// Drawable drawable =
 		// getResources().getDrawable(R.drawable.ic_launcher);
 		// Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
