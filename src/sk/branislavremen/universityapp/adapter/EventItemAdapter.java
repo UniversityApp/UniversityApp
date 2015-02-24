@@ -270,7 +270,7 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener, Fi
 		// dialog.setCancelable(false);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		dialog.setContentView(R.layout.dialog_exist);
+		dialog.setContentView(R.layout.dialog_event);
 		// dialog.setTitle("Pozvánka - POUŽITÁ");
 
 		WindowManager.LayoutParams lp4 = new WindowManager.LayoutParams();

@@ -35,5 +35,6 @@
     <string name="choose">vyberte</string>
     <string name="title_activity_chat">Chat</string>
     <string name="title_activity_settings_study">Settings - Study</string>
+    <string name="title_activity_place">Miesta</string>
 
 </resources>

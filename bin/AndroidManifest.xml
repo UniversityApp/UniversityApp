@@ -81,6 +81,10 @@
             android:name=".SettingsStudyActivity"
             android:label="@string/title_activity_settings_study" >
         </activity>
+        <activity
+            android:name=".PlaceActivity"
+            android:label="@string/title_activity_place" >
+        </activity>
     </application>
 
 </manifest>

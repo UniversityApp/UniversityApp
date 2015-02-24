@@ -35,8 +35,13 @@ public class MainActivity extends Activity {
 				@Override
 				public void done(ParseUser object, ParseException e) {
 					// TODO Auto-generated method stub
+					if(e == null){
 					if(!currentUser.getBoolean("isAllFilled")){
 						loadSettingsView();
+					}
+					} else {
+						ParseUser.logOut();
+						loadLoginView();
 					}
 				}
 			});
@@ -44,7 +49,7 @@ public class MainActivity extends Activity {
 
 		rssNewsButton = (Button) findViewById(R.id.rssNewsButton);
 		eventsButton = (Button) findViewById(R.id.eventsButton);
-		placesButton = (Button) findViewById(R.id.eventsButton);
+		placesButton = (Button) findViewById(R.id.placesButton);
 		chatButton = (Button) findViewById(R.id.chatButton);
 
 		rssNewsButton.setOnClickListener(new OnClickListener() {
@@ -68,6 +73,18 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+
+		placesButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this,
+						PlaceActivity.class);
+				startActivity(intent);
+			}
+		});
+
 		
 		chatButton.setOnClickListener(new OnClickListener() {
 
