@@ -41,18 +41,6 @@
             android:text="Add to calendar" />
 
         <Button
-            android:id="@+id/dialog_event_navigate_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Navigate" />
-
-        <Button
-            android:id="@+id/dialog_event_ar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="AR" />
-
-        <Button
             android:id="@+id/dialog_event_navigate_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

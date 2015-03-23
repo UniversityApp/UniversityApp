@@ -8,7 +8,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseImageView;
 
 import sk.branislavremen.universityapp.EventsActivity;
 import sk.branislavremen.universityapp.R;
@@ -188,6 +191,19 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 		lp4.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp4.dimAmount = 0.8f;
 
+		if(ed.getPicture().isDataAvailable()){
+			ParseImageView imageViewPicture = (ParseImageView) dialog.findViewById(R.id.dialog_place_image);
+			imageViewPicture.setParseFile(ed.getPicture());
+			imageViewPicture.loadInBackground(new GetDataCallback() {
+				
+				@Override
+				public void done(byte[] data, ParseException e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+		
 		((TextView) dialog.findViewById(R.id.dialog_place_title)).setText(ed
 				.getTitle());
 		((TextView) dialog.findViewById(R.id.dialog_place_address)).setText(ed

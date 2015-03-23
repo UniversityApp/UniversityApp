@@ -81,7 +81,7 @@ public class SettingsActivity extends Activity {
 	Button studySettingsButton;
 	Button changePasswordButton;
 	
-	CheckBox isStudentCheckBox;
+	CheckBox isTeacherCheckBox;
 
 	/* helper variables */
 	boolean isNewAvatarLoaded;
@@ -113,7 +113,7 @@ public class SettingsActivity extends Activity {
 
 		avatarImageView = (ImageView) findViewById(R.id.settings_avatar_imageview);
 		
-		isStudentCheckBox = (CheckBox) findViewById(R.id.settings_studydata_checkbox);
+		isTeacherCheckBox = (CheckBox) findViewById(R.id.settings_studydata_checkbox);
 
 		studySettingsButton = (Button) findViewById(R.id.settings_setStudyData_button);
 		changePasswordButton = (Button) findViewById(R.id.settings_change_password_button);
@@ -163,12 +163,12 @@ public class SettingsActivity extends Activity {
 			}
 		});
 		
-		isStudentCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		isTeacherCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				setViewsEnabled(!isChecked);
+				setViewsEnabled(isChecked);
 			}
 		});
 		
@@ -300,7 +300,6 @@ public class SettingsActivity extends Activity {
 	public void setValuesToViews(){
 		
 		setViewsEnabled(isStudent);
-		
 		usernameTextView.setText(username);
 		titleTextView.setText(title);
 		nameTextView.setText(name);
@@ -314,13 +313,13 @@ public class SettingsActivity extends Activity {
 		rocnikTextView.setText(rocnik);
 	}
 	
-	public void setViewsEnabled(boolean isStudent){
-		if(isStudent){
-			isStudentCheckBox.setChecked(!isStudent);
-			studySettingsButton.setEnabled(isStudent);
+	public void setViewsEnabled(boolean isTeacher){
+		if(isTeacher){
+			isTeacherCheckBox.setChecked(isTeacher);
+			studySettingsButton.setEnabled(!isTeacher);
 		} else {
-			isStudentCheckBox.setChecked(!isStudent);
-			studySettingsButton.setEnabled(isStudent);
+			isTeacherCheckBox.setChecked(isTeacher);
+			studySettingsButton.setEnabled(!isTeacher);
 		}
 	}
 
@@ -341,7 +340,7 @@ public class SettingsActivity extends Activity {
 			result = false;
 		}
 		
-		if(!isStudentCheckBox.isChecked()){
+		if(!isTeacherCheckBox.isChecked()){
 			if(fakulta == null | fakulta.length() == 0){
 				result = false;
 			}
@@ -405,7 +404,7 @@ public class SettingsActivity extends Activity {
 		pu.put("Meno", nameTextView.getText().toString());
 		pu.put("Priezvisko", surnameTextView.getText().toString());
 		
-		if(isStudentCheckBox.isChecked()){
+		if(isTeacherCheckBox.isChecked()){
 			pu.put("Fakulta", "");
 			pu.put("Stupen", "");
 			pu.put("Forma", "");
@@ -413,7 +412,7 @@ public class SettingsActivity extends Activity {
 			pu.put("StudyProgramme", "");
 			pu.put("Rocnik", "");
 			
-			pu.put("isStudent", false);
+			pu.put("isTeacher", false);
 		} else {
 			pu.put("Fakulta", fakulta);
 			pu.put("Stupen", stupen);
@@ -422,7 +421,7 @@ public class SettingsActivity extends Activity {
 			pu.put("StudyProgramme", program);
 			pu.put("Rocnik", rocnik);
 			
-			pu.put("isStudent", true);
+			pu.put("isTeacher", true);
 		}
 
 		if (isNewAvatarLoaded) {
