@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -40,7 +41,6 @@ public class PlaceActivity extends ListActivity {
 		setListAdapter(itemAdapter);
 
 		refreshPlaces();
-
 	}
 
 	public void refreshPlaces() {
@@ -65,17 +65,21 @@ public class PlaceActivity extends ListActivity {
 
 	public void createPlaceDataList(List<ParseObject> objects) {
 		for (ParseObject object : objects) {
-
+			
+			ParseFile f = null;
+			if(object.getParseFile("Picture").isDataAvailable()){
+				f = object.getParseFile("Picture");
+				f.getDataInBackground();
+			}
+			
 			PlaceData place = new PlaceData(object.getString("Nazov"),
 					object.getString("Adresa"), object.getString("Typ"),
 					object.getParseGeoPoint("gps"), object.getString("Detail"),
-					object.getParseFile("Picture"));
+					f);
 			pd_list.add(place);
-
 		}
 		itemAdapter.notifyDataSetChanged();
 		Log.e("tag", "done");
-
 	}
 	
 	/* MENU */

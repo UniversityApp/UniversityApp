@@ -14,7 +14,9 @@
             android:id="@+id/dialog_place_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_school" />
+            android:adjustViewBounds="true"
+            android:padding="15dp"
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/dialog_place_title"
