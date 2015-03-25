@@ -2,6 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="sk.branislavremen.universityapp.PlaceActivity" >
 
+     <item android:id="@+id/search"
+          android:title="@string/search_title"
+          android:icon="@drawable/ic_search"
+          android:showAsAction="collapseActionView|ifRoom"
+          android:actionViewClass="android.widget.SearchView" />
+    
     <item
         android:id="@+id/action_ar"
         android:icon="@drawable/ic_navigation_arrow_forward"

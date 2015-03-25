@@ -35,45 +35,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		final ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser == null) {
-			loadLoginView();
-		} else {
-			currentUser.fetchInBackground(new GetCallback<ParseUser>() {
-
-				@Override
-				public void done(ParseUser object, ParseException e) {
-					// TODO Auto-generated method stub
-					role = object.getString("Role");
-					isTeacherConfirmed = object.getBoolean("teacherConfirmation");
-					
-					if (role.equalsIgnoreCase("visitor")) {
-					adminButton.setVisibility(View.GONE);
-						
-					}
-
-					if (role.equalsIgnoreCase("student")) {
-						
-					}
-					
-					if (role.equalsIgnoreCase("admin")) {
-						adminButton.setVisibility(View.VISIBLE);
-					}
-
-					if (role.equalsIgnoreCase("teacher")) {
-					
-						if(isTeacherConfirmed){
-						
-						} else {
-							
-						}
-					}
-				}
-			});
 		
-		}
-
 		rssNewsButton = (Button) findViewById(R.id.rssNewsButton);
 		eventsButton = (Button) findViewById(R.id.eventsButton);
 		placesButton = (Button) findViewById(R.id.placesButton);
@@ -82,6 +44,8 @@ public class MainActivity extends Activity {
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		adminButton = (Button) findViewById(R.id.adminButton);
 
+		checkUser();
+		
 		rssNewsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -159,6 +123,58 @@ public class MainActivity extends Activity {
 		});
 		
 		
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		checkUser();
+	}
+	
+	private void checkUser(){
+		final ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser == null) {
+			loadLoginView();
+		} else {
+			currentUser.fetchInBackground(new GetCallback<ParseUser>() {
+
+				@Override
+				public void done(ParseUser object, ParseException e) {
+					// TODO Auto-generated method stub
+					role = object.getString("Role");
+					isTeacherConfirmed = object.getBoolean("teacherConfirmation");
+					
+					if (role.equalsIgnoreCase("visitor")) {
+						adminButton.setVisibility(View.GONE);
+						chatButton.setEnabled(false);
+					}
+
+					if (role.equalsIgnoreCase("student")) {
+						adminButton.setVisibility(View.GONE);
+						chatButton.setEnabled(true);
+					}
+
+					if (role.equalsIgnoreCase("teacher")) {
+					
+						if(isTeacherConfirmed){
+							adminButton.setVisibility(View.GONE);
+							chatButton.setEnabled(true);
+						} else {
+							adminButton.setVisibility(View.GONE);
+							chatButton.setEnabled(false);
+						}
+					}
+					
+					if (role.equalsIgnoreCase("admin")) {
+						adminButton.setVisibility(View.VISIBLE);
+					}
+					
+				}
+			});
+		
+		}
 	}
 
 	private void loadLoginView() {

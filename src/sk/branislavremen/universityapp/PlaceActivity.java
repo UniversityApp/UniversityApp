@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -19,6 +20,8 @@ import sk.branislavremen.universityapp.vo.EventData;
 import sk.branislavremen.universityapp.vo.PlaceData;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -29,6 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.SearchView;
 
 public class PlaceActivity extends ListActivity {
 
@@ -99,6 +103,34 @@ public class PlaceActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.place, menu);
+		
+		// Associate searchable configuration with the SearchView
+				SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+				SearchView searchView = (SearchView) menu.findItem(R.id.search)
+						.getActionView();
+				if (null != searchView) {
+					searchView.setSearchableInfo(searchManager
+							.getSearchableInfo(getComponentName()));
+					searchView.setIconifiedByDefault(false);
+				}
+
+				SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+					public boolean onQueryTextChange(String newText) {
+						// this is your adapter that will be filtered
+						Log.i("search", ">>" + newText);
+
+						itemAdapter.getFilter().filter(newText);
+						return true;
+					}
+
+					public boolean onQueryTextSubmit(String query) {
+						// Here u can get the value "query" which is entered in the
+						// search box.
+						return false;
+					}
+				};
+				searchView.setOnQueryTextListener(queryTextListener);
+		
 		return true;
 	}
 
@@ -126,6 +158,7 @@ public class PlaceActivity extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/* KONIEC MENU */
 	    private void getLocationAndStartActivity() {
 	        // Get the location manager
 	        LocationManager locationManager = (LocationManager) 

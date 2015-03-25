@@ -13,11 +13,13 @@
         android:id="@+id/feedback_otazka"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="otazka" />
 
     <LinearLayout
         android:id="@+id/feedback_shortansw_ll"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
@@ -38,6 +40,7 @@
         android:id="@+id/feedback_yesno_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <Button
@@ -58,6 +61,7 @@
     <TextView
         android:id="@+id/feedback_zakazane"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:text="dakujeme, nemozete odpovedat viac krat" />
 

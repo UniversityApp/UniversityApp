@@ -2,9 +2,14 @@ package sk.branislavremen.universityapp;
 
 import sk.branislavremen.universityapp.vo.MessageData;
 import android.app.Application;
+import android.util.Log;
 
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 public class InitApplication extends Application {
 
@@ -17,6 +22,8 @@ public class InitApplication extends Application {
 	    ParseObject.registerSubclass(MessageData.class);
 	 //   Parse.enableLocalDatastore(this);
 	    Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
+	    
+	
 	 
 	}
 	

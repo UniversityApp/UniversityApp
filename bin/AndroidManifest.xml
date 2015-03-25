@@ -7,18 +7,24 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
-
-     <!-- Minimum permissions for Beyondar -->
-    <uses-permission android:name="android.permission.CAMERA" />
     
-     <!-- For Beyondar this is not mandatory unless you want to load something from Internet (for instance images) -->
+     <permission
+        android:name="net.learn2develop.googlemaps.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="net.learn2develop.googlemaps.permission.MAPS_RECEIVE" />
+
+    <!-- Minimum permissions for Beyondar -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- For Beyondar this is not mandatory unless you want to load something from Internet (for instance images) -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- BeyondAR needs the following features -->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.sensor.accelerometer" />
     <uses-feature android:name="android.hardware.sensor.compass" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- pre výber avataru -->
@@ -82,7 +88,6 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <!-- ACTIVIES END -->
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
@@ -98,6 +103,13 @@
         <activity
             android:name=".PlaceActivity"
             android:label="@string/title_activity_place" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".FeedbackActivity"
@@ -111,14 +123,13 @@
             android:name=".Ar2Activity"
             android:label="@string/title_activity_ar" >
         </activity>
-        
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCiRO34fbkGlTlNwPhiGIgx-lCLxM9Ou6I" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        
     </application>
 
 </manifest>

@@ -1,22 +1,9 @@
 package sk.branislavremen.universityapp.adapter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseImageView;
-
-import sk.branislavremen.universityapp.EventsActivity;
 import sk.branislavremen.universityapp.R;
-import sk.branislavremen.universityapp.filter.EventFilter;
-import sk.branislavremen.universityapp.vo.EventData;
+import sk.branislavremen.universityapp.filter.PlaceFilter;
 import sk.branislavremen.universityapp.vo.PlaceData;
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,16 +11,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.CountDownTimer;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Filter;
@@ -42,10 +26,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseImageView;
+
 public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 		Filterable {
+	
+	
 
-	EventFilter eventFilter;
+	PlaceFilter placeFilter;
 
 	protected Activity activity;
 	protected ArrayList<PlaceData> items;
@@ -56,7 +50,7 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 
 	private static LayoutInflater inflater = null;
 
-	EventData edd;
+	PlaceData pdd;
 
 	public PlaceItemAdapter(Activity activity, ArrayList<PlaceData> items) {
 		this.activity = activity;
@@ -64,7 +58,8 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+		
+	
 	}
 
 	/********* Create a holder Class to contain inflated xml file elements *********/
@@ -191,7 +186,7 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 		lp4.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		lp4.dimAmount = 0.8f;
 
-		if(ed.getPicture().isDataAvailable()){
+		//if(ed.getPicture() != null & ed.getPicture().isDataAvailable()){
 			ParseImageView imageViewPicture = (ParseImageView) dialog.findViewById(R.id.dialog_place_image);
 			imageViewPicture.setPlaceholder(activity.getResources().getDrawable(R.drawable.ic_launcher));
 			imageViewPicture.setParseFile(ed.getPicture());
@@ -203,7 +198,7 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 					Log.d("obr", "e:" + e);
 				}
 			});
-		}
+		//}
 		
 		((TextView) dialog.findViewById(R.id.dialog_place_title)).setText(ed
 				.getTitle());
@@ -226,7 +221,16 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 		});
 		
 				//dialog.dismiss();
-	
+		Button btnCancel = (Button) dialog
+				.findViewById(R.id.dialog_place_cancel);
+		btnCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		});
 
 		dialog.show();
 		dialog.getWindow().setAttributes(lp4);
@@ -262,15 +266,15 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 	@Override
 	public Filter getFilter() {
 		// TODO Auto-generated method stub
-		if (eventFilter == null) {
-			eventFilter = new EventFilter();
+		if (placeFilter == null) {
+			placeFilter = new PlaceFilter();
 
 			// nastavim arraylist<eventdata>
-//			eventFilter.setMyEventData(items);
-	//		eventFilter.setAdapter(this);
+			placeFilter.setMyPlaceData(items);
+			placeFilter.setAdapter(this);
 
 		}
-		return eventFilter;
+		return placeFilter;
 	}
 
 }

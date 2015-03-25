@@ -164,18 +164,21 @@ public class FeedbackActivity extends Activity {
 	}
 
 	public void zobrazKratkuOdpoved() {
+		otazka_tv.setVisibility(View.VISIBLE);
 		kratka_odpoved_ll.setVisibility(View.VISIBLE);
 		ano_nie_ll.setVisibility(View.GONE);
 		nemoznoOdpovedat.setVisibility(View.GONE);
 	}
 
 	public void zobrazAnoNieOdpoved() {
+		otazka_tv.setVisibility(View.VISIBLE);
 		kratka_odpoved_ll.setVisibility(View.GONE);
 		ano_nie_ll.setVisibility(View.VISIBLE);
 		nemoznoOdpovedat.setVisibility(View.GONE);
 	}
 
 	public void zobrazUzOdpovedal() {
+		otazka_tv.setVisibility(View.GONE);
 		kratka_odpoved_ll.setVisibility(View.GONE);
 		ano_nie_ll.setVisibility(View.GONE);
 		nemoznoOdpovedat.setVisibility(View.VISIBLE);
