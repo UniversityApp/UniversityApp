@@ -7,6 +7,8 @@ import java.util.List;
 import sk.branislavremen.universityapp.R;
 import sk.branislavremen.universityapp.vo.MessageData;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -70,7 +74,7 @@ public class ChatListAdapter extends ArrayAdapter<MessageData> {
 		
 		holder.body.setText(message.getBody());
 		holder.date.setText(message.getCreatedAt().toString());
-		getUserName(message.getUserId(), holder.name);
+		getUserName(message.getUserId(), holder.name, profileView);
 		return convertView;
 	}
 
@@ -89,7 +93,7 @@ public class ChatListAdapter extends ArrayAdapter<MessageData> {
 	}
 
 	// Create a gravatar image based on the hash value obtained from userId
-	private static void getUserName(final String userId, final TextView tv) {
+	private static void getUserName(final String userId, final TextView tv, final ImageView iv) {
 
 		ParseQuery<ParseUser> query = ParseUser.getQuery();
 		// Configure limit and sort order
@@ -105,6 +109,24 @@ public class ChatListAdapter extends ArrayAdapter<MessageData> {
 				if (e == null) {
 					tv.setText(object.getUsername().toString());
 					Log.d("msg2", "msg:" +object.getUsername());
+					
+					ParseFile imageFile = (ParseFile) object.get("Picture");
+					imageFile.getDataInBackground(new GetDataCallback() {
+						public void done(byte[] data, ParseException e) {
+							
+							if (e == null) {
+								// data has the bytes for the image
+								Log.d("img", "e je null");
+								Bitmap pictureBitMap = BitmapFactory.decodeByteArray(data,
+										0, data.length);
+								iv.setImageBitmap(pictureBitMap);
+							} else {
+								// something went wrong
+								Log.d("img", "e:" + e.getMessage());
+							}
+						}
+					});
+					
 				} else {
 					Log.d("message", "Error: " + e.getMessage());
 
@@ -114,6 +136,9 @@ public class ChatListAdapter extends ArrayAdapter<MessageData> {
 		});
 		
 	}
+	
+	
+	
 
 	final class ViewHolder {
 		public ImageView imageLeft;
