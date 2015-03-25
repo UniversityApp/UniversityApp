@@ -83,7 +83,7 @@ public class SignUpActivity extends Activity {
 				                    newUser.setPassword(password);
 				                    newUser.setEmail(email);
 				                    newUser.put("Picture", file);
-				                    newUser.put("isAllFilled", false);
+				                    newUser.put("Role", "visitor");
 				                    newUser.signUpInBackground(new SignUpCallback() {
 				                        @Override
 				                        public void done(ParseException e) {

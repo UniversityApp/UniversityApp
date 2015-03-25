@@ -16,12 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,22 +44,18 @@ public class SettingsActivity extends Activity {
 	final int PASSWORD_LENG = 6;
 	final int RESULT_LOAD_IMG = 1;
 	final int RESULT_STUDY_DATA = 2;
-	
+
 	/* values on parse */
 	String username;
 	String email;
-	String title;
 	String name;
-	String surname;
-	String fakulta;
-	String stupen;
-	String forma;
-	String druh;
+	String role;
 	String program;
 	String rocnik;
 	
-	boolean isStudent;
-	boolean isAllFilled;
+	LinearLayout studySection;
+
+	Boolean isTeacherConfirmed;
 
 	String pictureString;
 	Bitmap pictureBitMap;
@@ -61,27 +63,24 @@ public class SettingsActivity extends Activity {
 
 	/* ui variables */
 	EditText usernameTextView;
-	EditText titleTextView;
 	EditText nameTextView;
-	EditText surnameTextView;
 	EditText emailTextView;
-	
+
 	EditText password1TextView;
 	EditText password2TextView;
-	
-	TextView fakultaTextView;
-	TextView stupenTextView;
-	TextView formaTextView;
-	TextView druhTextView;
+
+	TextView teacherStatusTextView;
+
 	TextView programTextView;
 	TextView rocnikTextView;
 
 	ImageView avatarImageView;
-	
+
 	Button studySettingsButton;
 	Button changePasswordButton;
-	
-	CheckBox isTeacherCheckBox;
+
+	Spinner roleSpinner;
+	ArrayAdapter<CharSequence> adapter;
 
 	/* helper variables */
 	boolean isNewAvatarLoaded;
@@ -96,24 +95,21 @@ public class SettingsActivity extends Activity {
 		isNewAvatarLoaded = false;
 
 		/* ui init */
+		studySection = (LinearLayout) findViewById(R.id.settings_study_data_linearlayout);
+		
 		usernameTextView = (EditText) findViewById(R.id.settings_username_edittext);
-		titleTextView = (EditText) findViewById(R.id.settings_title_edittext);
 		nameTextView = (EditText) findViewById(R.id.settings_name_edittext);
-		surnameTextView = (EditText) findViewById(R.id.settings_surname_edittext);
 		emailTextView = (EditText) findViewById(R.id.settings_email_edittext);
 		password1TextView = (EditText) findViewById(R.id.settings_password_edittext);
 		password2TextView = (EditText) findViewById(R.id.settings_password_again_edittext);
-		
-		fakultaTextView = (TextView) findViewById(R.id.settings_fakulta_tv);
-		stupenTextView = (TextView) findViewById(R.id.settings_stupen_tv);
-		formaTextView = (TextView) findViewById(R.id.settings_forma_tv);
-		druhTextView = (TextView) findViewById(R.id.settings_druh_tv);
+
+		teacherStatusTextView = (TextView) findViewById(R.id.settings_teacher_status);
 		programTextView = (TextView) findViewById(R.id.settings_program_tv);
 		rocnikTextView = (TextView) findViewById(R.id.settings_rocnik_tv);
 
 		avatarImageView = (ImageView) findViewById(R.id.settings_avatar_imageview);
-		
-		isTeacherCheckBox = (CheckBox) findViewById(R.id.settings_studydata_checkbox);
+
+		roleSpinner = (Spinner) findViewById(R.id.settings_role_spinner);
 
 		studySettingsButton = (Button) findViewById(R.id.settings_setStudyData_button);
 		changePasswordButton = (Button) findViewById(R.id.settings_change_password_button);
@@ -134,7 +130,7 @@ public class SettingsActivity extends Activity {
 				startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
 			}
 		});
-		
+
 		studySettingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -162,16 +158,27 @@ public class SettingsActivity extends Activity {
 
 			}
 		});
-		
-		isTeacherCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				setViewsEnabled(isChecked);
-			}
+
+		adapter = ArrayAdapter.createFromResource(this, R.array.roles,
+				android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		roleSpinner.setAdapter(adapter);
+		roleSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    @Override
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		        // your code here
+		    	role = roleSpinner.getSelectedItem().toString();
+		    	setViewsEnabled(role);
+		    }
+
+		    @Override
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
 		});
-		
+
 		/* stiahnem data alebo ukoncim ak nie je prihlaseny */
 		if (ParseUser.getCurrentUser() != null) {
 			getUserData();
@@ -180,66 +187,56 @@ public class SettingsActivity extends Activity {
 		}
 
 	}
-	
-	/*pri stlaceni backbuttonu zistim ci je vsetko vyplnene*/
+
+	/* pri stlaceni backbuttonu zistim ci je vsetko vyplnene */
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		//super.onBackPressed();
-		if(isAllFilled){
-			finish();
-		} else {
-			Toast.makeText(this, "vyplnte vsetko", Toast.LENGTH_SHORT).show();
-		}
-	}
+		// super.onBackPressed();
 
+		finish();
+
+	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		try {
 			// When an Image is picked
-			if (resultCode == RESULT_OK	&& null != data) {
-				if(requestCode == RESULT_LOAD_IMG){
-				// Get the Image from data
-				Uri selectedImage = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			if (resultCode == RESULT_OK && null != data) {
+				if (requestCode == RESULT_LOAD_IMG) {
+					// Get the Image from data
+					Uri selectedImage = data.getData();
+					String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-				// Get the cursor
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				// Move to first row
-				cursor.moveToFirst();
+					// Get the cursor
+					Cursor cursor = getContentResolver().query(selectedImage,
+							filePathColumn, null, null, null);
+					// Move to first row
+					cursor.moveToFirst();
 
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				pictureString = cursor.getString(columnIndex);
-				cursor.close();
+					int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+					pictureString = cursor.getString(columnIndex);
+					cursor.close();
 
-				pictureBitMap = BitmapFactory.decodeFile(pictureString);
-				// Set the Image in ImageView after decoding the String
-				avatarImageView.setImageBitmap(pictureBitMap);
+					pictureBitMap = BitmapFactory.decodeFile(pictureString);
+					// Set the Image in ImageView after decoding the String
+					avatarImageView.setImageBitmap(pictureBitMap);
 
-				isNewAvatarLoaded = true;
-				} /* {
-					Toast.makeText(this, "You haven't picked Image",
-							Toast.LENGTH_LONG).show();
-				}*/
-				
-				if(requestCode == RESULT_STUDY_DATA){
-					//navrat zo settings study activity
-					fakulta = data.getStringExtra("fakulta");
-					stupen = data.getStringExtra("stupen");
-					forma = data.getStringExtra("forma");	
-					druh = data.getStringExtra("druh");
+					isNewAvatarLoaded = true;
+				} /*
+				 * { Toast.makeText(this, "You haven't picked Image",
+				 * Toast.LENGTH_LONG).show(); }
+				 */
+
+				if (requestCode == RESULT_STUDY_DATA) {
+					// navrat zo settings study activity
 					program = data.getStringExtra("program");
 					rocnik = data.getStringExtra("rocnik");
-					isStudent = true;
-					
 					setValuesToViews();
 				}
-				
 
-			}  else {
-				
+			} else {
+
 			}
 		} catch (Exception e) {
 			Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
@@ -247,8 +244,6 @@ public class SettingsActivity extends Activity {
 		}
 
 	}
-
-	
 
 	/* nacitanie dat do UI - zaciatok */
 	public void getUserData() {
@@ -260,176 +255,119 @@ public class SettingsActivity extends Activity {
 			@Override
 			public void done(ParseUser object, ParseException e) {
 				// TODO Auto-generated method stub
-				
+
 				ParseFile imageFile = (ParseFile) object.get("Picture");
 				imageFile.getDataInBackground(new GetDataCallback() {
-				  public void done(byte[] data, ParseException e) {
-					  setProgressBarIndeterminateVisibility(false);
-				    if (e == null) {
-				      // data has the bytes for the image
-				    	Log.d("img", "e je null");
-				    	pictureBitMap = BitmapFactory.decodeByteArray(data, 0, data.length);
-				    	avatarImageView.setImageBitmap(pictureBitMap);
-				    } else {
-				      // something went wrong
-				    	Log.d("img", "e:" + e.getMessage());
-				    }
-				  }
+					public void done(byte[] data, ParseException e) {
+						setProgressBarIndeterminateVisibility(false);
+						if (e == null) {
+							// data has the bytes for the image
+							Log.d("img", "e je null");
+							pictureBitMap = BitmapFactory.decodeByteArray(data,
+									0, data.length);
+							avatarImageView.setImageBitmap(pictureBitMap);
+						} else {
+							// something went wrong
+							Log.d("img", "e:" + e.getMessage());
+						}
+					}
 				});
 
-				isStudent = object.getBoolean("isStudent");
-				isAllFilled = object.getBoolean("isAllFilled");
-				
 				username = object.getUsername();
-				title = object.getString("Titul");
 				name = object.getString("Meno");
-				surname = object.getString("Priezvisko");
 				email = object.getEmail();
-				fakulta = object.getString("Fakulta");
-				stupen = object.getString("Stupen");
-				forma = object.getString("Forma");
-				druh = object.getString("Druh");
+				role = object.getString("Role");
 				program = object.getString("StudyProgramme");
 				rocnik = object.getString("Rocnik");
-				
+				isTeacherConfirmed = object.getBoolean("teacherConfirmation");
+
 				setValuesToViews();
 			}
 		});
 	}
-	
-	public void setValuesToViews(){
+
+	public void setValuesToViews() {
+		if(role.equalsIgnoreCase("admin")){
+			teacherStatusTextView.setText("ADMIN prihlaseny");
+			teacherStatusTextView.setVisibility(View.VISIBLE);
+		} else {
+			
+		int position = adapter.getPosition(role);
+		roleSpinner.setSelection(position);
+		setViewsEnabled(roleSpinner.getSelectedItem().toString());
 		
-		setViewsEnabled(isStudent);
+		}
+		
 		usernameTextView.setText(username);
-		titleTextView.setText(title);
 		nameTextView.setText(name);
-		surnameTextView.setText(surname);
 		emailTextView.setText(email);
-		fakultaTextView.setText(fakulta);
-		stupenTextView.setText(stupen);
-		formaTextView.setText(forma);
-		druhTextView.setText(druh);
 		programTextView.setText(program);
 		rocnikTextView.setText(rocnik);
 	}
-	
-	public void setViewsEnabled(boolean isTeacher){
-		if(isTeacher){
-			isTeacherCheckBox.setChecked(isTeacher);
-			studySettingsButton.setEnabled(!isTeacher);
-		} else {
-			isTeacherCheckBox.setChecked(isTeacher);
-			studySettingsButton.setEnabled(!isTeacher);
+
+	public void setViewsEnabled(String role) {
+		if (role.equalsIgnoreCase("visitor")) {
+			teacherStatusTextView.setVisibility(View.GONE);
+			studySettingsButton.setVisibility(View.GONE);
+			studySection.setVisibility(View.GONE);
+		}
+
+		if (role.equalsIgnoreCase("student")) {
+			teacherStatusTextView.setVisibility(View.GONE);
+			studySettingsButton.setVisibility(View.VISIBLE);
+			studySection.setVisibility(View.VISIBLE);
+		}
+
+		if (role.equalsIgnoreCase("teacher")) {
+			teacherStatusTextView.setVisibility(View.VISIBLE);
+			studySettingsButton.setVisibility(View.GONE);
+			studySection.setVisibility(View.GONE);
+			if(isTeacherConfirmed){
+				teacherStatusTextView.setText("schválený");
+			} else {
+				teacherStatusTextView.setText("èaká na schválenie");
+			}
 		}
 	}
 
 	/* nacitanie dat do UI - koniec */
 
-	/* UPDATE PROFILU POUZIVATELA - ZACIATOK */
-
-	public boolean isAllProfileFilled() {
-		boolean result = true;
-
-		
-
-		if (nameTextView.getText() == null | nameTextView.getText().equals(nameTextView.getHint())) {
-			result = false;
-		}
-		
-		if (surnameTextView.getText() == null | surnameTextView.getText().equals(surnameTextView.getHint())) {
-			result = false;
-		}
-		
-		if(!isTeacherCheckBox.isChecked()){
-			if(fakulta == null | fakulta.length() == 0){
-				result = false;
-			}
-			
-			if(stupen == null | stupen.length() == 0){
-				result = false;
-			}
-			
-			if(forma == null | forma.length() == 0){
-				result = false;
-			}
-			
-			if(druh == null | druh.length() == 0){
-				result = false;
-			}
-			
-			if(program == null | program.length() == 0){
-				result = false;
-			}
-			
-			if(rocnik == null | rocnik.length() == 0){
-				result = false;
-			}
-		}
-		
-		return result;
-	}
-
-	/*
-	 * aby som zarucil, ze nebudu pisat bludy pri studijnych programoch, budem
-	 * overovat ci pridali popis co im ponuklo v autocomplete okne. musia vybrat
-	 * moznost z toho okna inak ich to nepusti dalej
-	 */
-	public boolean isProgrammeFromList() {
-		boolean result = false;
-		/*
-		 * String text = studyProgrammeTextView.getText().toString(); if
-		 * (studyProgrammeTitlesList.contains(text) && text.length() > 0) {
-		 * result = true; }
-		 */
-		return result;
-	}
-
 	public void save() {
-		if (isAllProfileFilled()) {
-			setUserData();
-		} else {
-			// upozornit ze treba vsetko vyplnit
-			Toast.makeText(this, "vyplnte vsetko", Toast.LENGTH_SHORT).show();
-		}
+
+		setUserData();
+
 	}
 
 	public void setUserData() {
 
 		// tu riesim aj upload obrazku/avataru
 		// avatar uploadnem do systemu
+		role = roleSpinner.getSelectedItem().toString();
 
 		ParseUser pu = ParseUser.getCurrentUser();
-		
-		pu.put("Titul", titleTextView.getText().toString());
+
 		pu.put("Meno", nameTextView.getText().toString());
-		pu.put("Priezvisko", surnameTextView.getText().toString());
-		
-		if(isTeacherCheckBox.isChecked()){
-			pu.put("Fakulta", "");
-			pu.put("Stupen", "");
-			pu.put("Forma", "");
-			pu.put("Druh", "");
+		pu.put("Role", role);
+
+		if (role.equalsIgnoreCase("visitor")) {
 			pu.put("StudyProgramme", "");
 			pu.put("Rocnik", "");
-			
-			pu.put("isTeacher", false);
-		} else {
-			pu.put("Fakulta", fakulta);
-			pu.put("Stupen", stupen);
-			pu.put("Forma", forma);
-			pu.put("Druh", druh);
+		}
+
+		if (role.equalsIgnoreCase("student")) {
 			pu.put("StudyProgramme", program);
 			pu.put("Rocnik", rocnik);
-			
-			pu.put("isTeacher", true);
+		}
+
+		if (role.equalsIgnoreCase("teacher")) {
+			pu.put("StudyProgramme", "");
+			pu.put("Rocnik", "");
 		}
 
 		if (isNewAvatarLoaded) {
 			pu.put("Picture", newImageParseFile());
 		}
-		
-		pu.put("isAllFilled", true);
-		
+
 		setProgressBarIndeterminateVisibility(true);
 		pu.saveInBackground(new SaveCallback() {
 
@@ -532,7 +470,7 @@ public class SettingsActivity extends Activity {
 
 		case R.id.action_save:
 			save();
-		
+
 			break;
 
 		default:

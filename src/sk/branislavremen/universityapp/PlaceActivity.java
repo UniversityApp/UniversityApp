@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -18,6 +20,10 @@ import sk.branislavremen.universityapp.vo.PlaceData;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,6 +36,10 @@ public class PlaceActivity extends ListActivity {
 	ArrayList<PlaceData> pd_list;
 	PlaceItemAdapter itemAdapter;
 
+   	double lat = 0;
+    double lon = 0;
+    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +50,8 @@ public class PlaceActivity extends ListActivity {
 		itemAdapter = new PlaceItemAdapter(this, pd_list);
 		setListAdapter(itemAdapter);
 
+		
+		
 		refreshPlaces();
 	}
 
@@ -66,16 +78,16 @@ public class PlaceActivity extends ListActivity {
 	public void createPlaceDataList(List<ParseObject> objects) {
 		for (ParseObject object : objects) {
 			
-			ParseFile f = null;
+			/*ParseFile f = null;
 			if(object.getParseFile("Picture").isDataAvailable()){
 				f = object.getParseFile("Picture");
 				f.getDataInBackground();
-			}
+			}*/
 			
 			PlaceData place = new PlaceData(object.getString("Nazov"),
 					object.getString("Adresa"), object.getString("Typ"),
 					object.getParseGeoPoint("gps"), object.getString("Detail"),
-					f);
+					object.getParseFile("Picture"));
 			pd_list.add(place);
 		}
 		itemAdapter.notifyDataSetChanged();
@@ -104,9 +116,7 @@ public class PlaceActivity extends ListActivity {
 
 		case R.id.action_ar:
 			//open ar view
-			Intent intent = new Intent(PlaceActivity.this,
-					ArActivity.class);
-			startActivity(intent);
+			getLocationAndStartActivity();
 			break;
 
 		default:
@@ -115,5 +125,40 @@ public class PlaceActivity extends ListActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+	
+	    private void getLocationAndStartActivity() {
+	        // Get the location manager
+	        LocationManager locationManager = (LocationManager) 
+	                getSystemService(LOCATION_SERVICE);
+	        Criteria criteria = new Criteria();
+	        String bestProvider = locationManager.getBestProvider(criteria, false);
+	        Location location = locationManager.getLastKnownLocation(bestProvider);
+	        LocationListener loc_listener = new LocationListener() {
+
+	            public void onLocationChanged(Location l) {}
+
+	            public void onProviderEnabled(String p) {}
+
+	            public void onProviderDisabled(String p) {}
+
+	            public void onStatusChanged(String p, int status, Bundle extras) {}
+	        };
+	        locationManager
+	                .requestLocationUpdates(bestProvider, 0l, 0f, loc_listener);
+	        location = locationManager.getLastKnownLocation(bestProvider);
+	        try {
+	            lat = location.getLatitude();
+	            lon = location.getLongitude();
+	            
+	            Intent intent = new Intent(PlaceActivity.this,
+						ArActivity.class);
+				startActivity(intent);
+	        } catch (NullPointerException e) {
+	            lat = -1.0;
+	            lon = -1.0;
+	        }
+	        
+	        Log.d("GPS", "Current gps: " + lat + " / " + lon);
+	    }
 
 }

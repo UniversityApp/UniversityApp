@@ -1,13 +1,17 @@
 package sk.branislavremen.universityapp;
 
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.SwitchPreference;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +25,11 @@ public class MainActivity extends Activity {
 	Button placesButton;
 	Button chatButton;
 	Button feedbackButton;
+	Button settingsButton;
+	Button adminButton;
+	
+	String role = "visitor";
+	Boolean isTeacherConfirmed = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +45,33 @@ public class MainActivity extends Activity {
 				@Override
 				public void done(ParseUser object, ParseException e) {
 					// TODO Auto-generated method stub
-					if(e == null){
-					if(!currentUser.getBoolean("isAllFilled")){
-						loadSettingsView();
+					role = object.getString("Role");
+					isTeacherConfirmed = object.getBoolean("teacherConfirmation");
+					
+					if (role.equalsIgnoreCase("visitor")) {
+					adminButton.setVisibility(View.GONE);
+						
 					}
-					} else {
-						ParseUser.logOut();
-						loadLoginView();
+
+					if (role.equalsIgnoreCase("student")) {
+						
+					}
+					
+					if (role.equalsIgnoreCase("admin")) {
+						adminButton.setVisibility(View.VISIBLE);
+					}
+
+					if (role.equalsIgnoreCase("teacher")) {
+					
+						if(isTeacherConfirmed){
+						
+						} else {
+							
+						}
 					}
 				}
 			});
+		
 		}
 
 		rssNewsButton = (Button) findViewById(R.id.rssNewsButton);
@@ -53,6 +79,8 @@ public class MainActivity extends Activity {
 		placesButton = (Button) findViewById(R.id.placesButton);
 		chatButton = (Button) findViewById(R.id.chatButton);
 		feedbackButton = (Button) findViewById(R.id.feedbackButton);
+		settingsButton = (Button) findViewById(R.id.settingsButton);
+		adminButton = (Button) findViewById(R.id.adminButton);
 
 		rssNewsButton.setOnClickListener(new OnClickListener() {
 
@@ -101,6 +129,25 @@ public class MainActivity extends Activity {
 		
 
 		feedbackButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this,
+						FeedbackActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		settingsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				loadSettingsView();
+			}
+		});
+		
+		adminButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

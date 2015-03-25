@@ -10,33 +10,46 @@
     tools:context="sk.branislavremen.universityapp.MainActivity" >
 
     <Button
+        android:id="@+id/rssNewsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rssNewsButton" 
-        android:id="@+id/rssNewsButton"/>
-    
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/eventsButton" 
-        android:id="@+id/eventsButton"/>
+        android:text="@string/rssNewsButton" />
 
     <Button
+        android:id="@+id/eventsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/placesButton" 
-        android:id="@+id/placesButton"/>
-    
+        android:text="@string/eventsButton" />
+
     <Button
+        android:id="@+id/placesButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nastenka" 
-        android:id="@+id/chatButton"/>
-    
-       <Button
+        android:text="@string/placesButton" />
+
+    <Button
+        android:id="@+id/chatButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Feedback" 
-        android:id="@+id/feedbackButton"/>
+        android:text="Nastenka" />
+
+    <Button
+        android:id="@+id/feedbackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Feedback" />
     
+      <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nastavenia" />
+
+    <Button
+        android:id="@+id/adminButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="admin" />
+
 </LinearLayout>
