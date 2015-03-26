@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -13,15 +14,17 @@
         android:id="@+id/feedback_otazka"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="otazka" />
+        android:gravity="center"
+        android:text="otazka"
+        android:textColor="@color/primary_dark"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/feedback_shortansw_ll"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <EditText
             android:id="@+id/feedback_shortansw_et"
@@ -40,29 +43,36 @@
         android:id="@+id/feedback_yesno_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal" >
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/feedback_yes_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ano" />
+            android:background="@color/primary"
+            android:text="Ano"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/feedback_no_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Nie" />
+            android:background="@color/secondary"
+            android:text="Nie"
+            android:textColor="@color/white" />
     </LinearLayout>
-    
+
     <TextView
         android:id="@+id/feedback_zakazane"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        android:text="dakujeme, nemozete odpovedat viac krat" />
+        android:gravity="center"
+        android:text="dakujeme, nemozete odpovedat viac krat"
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
 </LinearLayout>

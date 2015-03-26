@@ -44,7 +44,7 @@
         <!-- ACTIVIES BEGIN -->
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_main" >
         </activity>
         <activity
             android:name=".SignUpActivity"

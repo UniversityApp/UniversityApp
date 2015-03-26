@@ -9,47 +9,112 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="sk.branislavremen.universityapp.MainActivity" >
 
-    <Button
-        android:id="@+id/rssNewsButton"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rssNewsButton" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo" />
 
-    <Button
-        android:id="@+id/eventsButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/eventsButton" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/placesButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/placesButton" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/chatButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nastenka" />
+            <Button
+                android:id="@+id/rssNewsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="@string/rssNewsButton"
+                android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/feedbackButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Feedback" />
-    
-      <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nastavenia" />
+            <Button
+                android:id="@+id/eventsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="@string/eventsButton"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/adminButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="admin" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/placesButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="@string/placesButton"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/chatButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="Nastenka"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/feedbackButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="Feedback"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/primary"
+                android:text="Nastavenia"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/adminButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@color/secondary"
+            android:text="admin"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

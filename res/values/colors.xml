@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="dropdown_list_background_green">#ececec</color>
     <color name="dropdown_list_divider_blue">#ffffff</color>
+    <color name="bg">#e4eae9</color>
+    <color name="primary">#85b2b7</color>
+    <color name="secondary">#989898</color>
+    <color name="black">#000000</color>
+    <color name="primary_dark">#85b2b7</color>
+    <color name="white">#FFFFFF</color>
+
 </resources>

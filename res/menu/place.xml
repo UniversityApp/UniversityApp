@@ -10,7 +10,7 @@
     
     <item
         android:id="@+id/action_ar"
-        android:icon="@drawable/ic_navigation_arrow_forward"
+        android:icon="@drawable/ic_ar"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="AR"/>

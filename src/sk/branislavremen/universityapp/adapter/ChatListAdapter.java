@@ -2,6 +2,8 @@ package sk.branislavremen.universityapp.adapter;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import sk.branislavremen.universityapp.R;
@@ -71,9 +73,11 @@ public class ChatListAdapter extends ArrayAdapter<MessageData> {
 		// priradim obrazok
 		//Picasso.with(getContext()).load(getProfileUrl(message.getUserId()))
 			//	.into(profileView);
+		Date ddd = message.getUpdatedAt();
+		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy hh:mm.ss");
 		
 		holder.body.setText(message.getBody());
-		holder.date.setText(message.getCreatedAt().toString());
+		holder.date.setText(format.format(ddd));
 		getUserName(message.getUserId(), holder.name, profileView);
 		return convertView;
 	}
