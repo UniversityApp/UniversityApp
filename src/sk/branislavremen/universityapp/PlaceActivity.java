@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -33,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 public class PlaceActivity extends ListActivity {
 
@@ -189,6 +191,7 @@ public class PlaceActivity extends ListActivity {
 	        } catch (NullPointerException e) {
 	            lat = -1.0;
 	            lon = -1.0;
+	            Toast.makeText(this, "Poloha GPS nie je dostupná, skúste to neskôr.", Toast.LENGTH_SHORT).show();
 	        }
 	        
 	        Log.d("GPS", "Current gps: " + lat + " / " + lon);

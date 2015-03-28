@@ -10,41 +10,81 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
+
         <TextView
             android:id="@+id/dialog_event_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="title" />
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:text="title"
+            android:textColor="@color/primary"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/dialog_event_descr"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="descr" />
+            
+            android:text="descr"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/secondary"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/dialog_event_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="date" />
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:text="date"
+            android:textColor="@color/secondary"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/dialog_event_place"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="place" />
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:text="place"
+            android:textColor="@color/secondary"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/dialog_event_add_calendar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Add to calendar" />
+            android:text="Pridať do kalendára"
+            android:layout_margin="4dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/primary"
+            android:padding="16dp"
+            
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/dialog_event_navigate_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="X" />
+            android:layout_margin="4dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/secondary"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:text="Zavrieť"
+             />
     </LinearLayout>
 
 </ScrollView>

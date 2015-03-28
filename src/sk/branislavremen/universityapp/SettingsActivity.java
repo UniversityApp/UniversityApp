@@ -52,7 +52,7 @@ public class SettingsActivity extends Activity {
 	String role;
 	String program;
 	String rocnik;
-	
+
 	LinearLayout studySection;
 
 	Boolean isTeacherConfirmed;
@@ -96,7 +96,7 @@ public class SettingsActivity extends Activity {
 
 		/* ui init */
 		studySection = (LinearLayout) findViewById(R.id.settings_study_data_linearlayout);
-		
+
 		usernameTextView = (EditText) findViewById(R.id.settings_username_edittext);
 		nameTextView = (EditText) findViewById(R.id.settings_name_edittext);
 		emailTextView = (EditText) findViewById(R.id.settings_email_edittext);
@@ -165,17 +165,23 @@ public class SettingsActivity extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		roleSpinner.setAdapter(adapter);
 		roleSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-		    @Override
-		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		        // your code here
-		    	role = roleSpinner.getSelectedItem().toString();
-		    	setViewsEnabled(role);
-		    }
+			@Override
+			public void onItemSelected(AdapterView<?> parentView,
+					View selectedItemView, int position, long id) {
+				// your code here
+				role = roleSpinner.getSelectedItem().toString();
+				setViewsEnabled(role);
+				if (role.equalsIgnoreCase("student")) {
+					Intent intent = new Intent(SettingsActivity.this,
+							SettingsStudyActivity.class);
+					startActivityForResult(intent, RESULT_STUDY_DATA);
+				}
+			}
 
-		    @Override
-		    public void onNothingSelected(AdapterView<?> parentView) {
-		        // your code here
-		    }
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				// your code here
+			}
 
 		});
 
@@ -287,17 +293,17 @@ public class SettingsActivity extends Activity {
 	}
 
 	public void setValuesToViews() {
-		if(role.equalsIgnoreCase("admin")){
+		if (role.equalsIgnoreCase("admin")) {
 			teacherStatusTextView.setText("ADMIN prihlaseny");
 			teacherStatusTextView.setVisibility(View.VISIBLE);
 		} else {
-			
-		int position = adapter.getPosition(role);
-		roleSpinner.setSelection(position);
-		setViewsEnabled(roleSpinner.getSelectedItem().toString());
-		
+
+			int position = adapter.getPosition(role);
+			roleSpinner.setSelection(position);
+			setViewsEnabled(roleSpinner.getSelectedItem().toString());
+
 		}
-		
+
 		usernameTextView.setText(username);
 		nameTextView.setText(name);
 		emailTextView.setText(email);
@@ -322,7 +328,7 @@ public class SettingsActivity extends Activity {
 			teacherStatusTextView.setVisibility(View.VISIBLE);
 			studySettingsButton.setVisibility(View.GONE);
 			studySection.setVisibility(View.GONE);
-			if(isTeacherConfirmed){
+			if (isTeacherConfirmed) {
 				teacherStatusTextView.setText("schválený");
 			} else {
 				teacherStatusTextView.setText("èaká na schválenie");
@@ -333,9 +339,11 @@ public class SettingsActivity extends Activity {
 	/* nacitanie dat do UI - koniec */
 
 	public void save() {
-
-		setUserData();
-
+		if (program == null | program.length() < 1) {
+			Toast.makeText(getApplicationContext(), "Vyplnte študium", Toast.LENGTH_SHORT).show();
+		} else {
+			setUserData();
+		}
 	}
 
 	public void setUserData() {

@@ -23,9 +23,9 @@
 
             <ImageView
                 android:id="@+id/settings_avatar_imageview"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_add_photo" />
@@ -46,8 +46,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="E-mail:"
-                android:textAppearance="@android:attr/textAppearanceSmall" />
+                android:text="E-mail"
+                android:textColor="@color/secondary" />
 
             <EditText
                 android:id="@+id/settings_email_edittext"
@@ -59,8 +59,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name:"
-                android:textAppearance="@android:attr/textAppearanceSmall" />
+                android:text="Meno a priezvisko"
+                android:textColor="@color/secondary" />
 
             <EditText
                 android:id="@+id/settings_name_edittext"
@@ -68,6 +68,12 @@
                 android:layout_height="wrap_content"
                 android:hint="Meno" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Typ konta"
+            android:textColor="@color/secondary" />
 
         <Spinner
             android:id="@+id/settings_role_spinner"
@@ -78,7 +84,9 @@
             android:id="@+id/settings_setStudyData_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/primary"
             android:text="nastav studium"
+            android:textColor="@color/white"
             android:visibility="gone" />
 
         <LinearLayout
@@ -91,68 +99,90 @@
             android:visibility="gone" >
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Štúdijný program"
+                android:textColor="@color/secondary" />
+
+            <TextView
                 android:id="@+id/settings_program_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:attr/textAppearanceMedium" />
+                android:textColor="@color/primary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ročník"
+                android:textColor="@color/secondary" />
 
             <TextView
                 android:id="@+id/settings_rocnik_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:attr/textAppearanceMedium" />
+                android:textColor="@color/primary" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/settings_teacher_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="čaká na schválenie"
-            android:textAppearance="@android:attr/textAppearanceMedium" />
+            android:gravity="center_horizontal"
+            android:background="@color/primary_dark"
+            android:text="Konto čaká na schválenie"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:id="@+id/settings_password_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:padding="4dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:orientation="vertical" >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
+                android:background="@color/secondary"
+                android:gravity="center_horizontal"
                 android:text="Zmena hesla"
-                android:textAppearance="@android:attr/textAppearanceMedium" />
+                android:textAppearance="@android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="zadajte nove heslo:"
-                android:textAppearance="@android:attr/textAppearanceSmall" />
+                android:text="Zadajte nové heslo"
+                android:textColor="@color/secondary" />
 
             <EditText
                 android:id="@+id/settings_password_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="password" />
+                android:hint="heslo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="zopakujte nove heslo:"
-                android:textAppearance="@android:attr/textAppearanceSmall" />
+                android:textColor="@color/secondary" />
 
             <EditText
                 android:id="@+id/settings_password_again_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="passwd again" />
+                android:hint="heslo znovu" />
 
             <Button
                 android:id="@+id/settings_change_password_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="zmen heslo" />
+                android:background="@color/secondary"
+                android:text="Zmeniť heslo"
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
 

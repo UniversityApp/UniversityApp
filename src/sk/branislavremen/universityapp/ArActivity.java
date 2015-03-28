@@ -46,6 +46,8 @@ OnClickListener{
    	double lat = 0;
     double lon = 0;
     
+    int pocet = 0;
+    
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,8 +139,8 @@ OnClickListener{
         try {
             lat = location.getLatitude();
             lon = location.getLongitude();
-           // lat = 48.308637;
-           // lon = 18.073165;
+            // lat = 48.308637;
+            // lon = 18.073165;
             sharedWorld.setGeoPosition(lat, lon);
            
             refreshPlaces(lat, lon);
@@ -176,14 +178,19 @@ OnClickListener{
 							f.getDataInBackground();
 						}*/
 						
+						pocet++;
+						
 						addObjectToAR(object.getParseGeoPoint("gps").getLatitude(), object.getParseGeoPoint("gps").getLongitude(), R.drawable.ic_launcher, object.getString("Nazov"));
 						
 						
 					}
+					
+					Toast.makeText(getApplicationContext(), "V rádiuse 1km sa nachádza " + pocet + " miest.", Toast.LENGTH_SHORT).show();
 				} else {
 					Log.e(getClass().getSimpleName(),
 							"Error: " + e.getMessage());
 					// nie je pripojenie
+					Toast.makeText(getApplicationContext(), "Internetové pripojenie nie je k dispozicii", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -191,7 +198,7 @@ OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -232,8 +239,12 @@ OnClickListener{
 
 			TextView textView = (TextView) recycledView.findViewById(R.id.titleTextView);
 			textView.setText(beyondarObject.getName());
-			Button button = (Button) recycledView.findViewById(R.id.button);
-			button.setOnClickListener(ArActivity.this);
+			TextView distTextView = (TextView) recycledView.findViewById(R.id.distanceTextView);
+			int dist = (int) beyondarObject.getDistanceFromUser();
+			distTextView.setText(dist + " m");
+			
+			//Button button = (Button) recycledView.findViewById(R.id.button);
+			//button.setOnClickListener(ArActivity.this);
 
 			// Once the view is ready we specify the position
 			setPosition(beyondarObject.getScreenPositionTopRight());

@@ -188,7 +188,7 @@ public class PlaceItemAdapter extends BaseAdapter implements OnClickListener,
 
 		//if(ed.getPicture() != null & ed.getPicture().isDataAvailable()){
 			ParseImageView imageViewPicture = (ParseImageView) dialog.findViewById(R.id.dialog_place_image);
-			imageViewPicture.setPlaceholder(activity.getResources().getDrawable(R.drawable.ic_launcher));
+			imageViewPicture.setPlaceholder(activity.getResources().getDrawable(R.drawable.logo));
 			imageViewPicture.setParseFile(ed.getPicture());
 			imageViewPicture.loadInBackground(new GetDataCallback() {
 				

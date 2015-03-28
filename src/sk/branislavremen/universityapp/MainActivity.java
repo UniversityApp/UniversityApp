@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -27,7 +28,7 @@ public class MainActivity extends Activity {
 	Button feedbackButton;
 	Button settingsButton;
 	Button adminButton;
-	
+
 	String role = "visitor";
 	Boolean isTeacherConfirmed = false;
 
@@ -35,7 +36,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		rssNewsButton = (Button) findViewById(R.id.rssNewsButton);
 		eventsButton = (Button) findViewById(R.id.eventsButton);
 		placesButton = (Button) findViewById(R.id.placesButton);
@@ -45,7 +46,7 @@ public class MainActivity extends Activity {
 		adminButton = (Button) findViewById(R.id.adminButton);
 
 		checkUser();
-		
+
 		rssNewsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -79,18 +80,34 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		
 		chatButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,
-						ChatActivity.class);
-				startActivity(intent);
+				Log.d("role", "role: " + role);
+				if (role.equalsIgnoreCase("visitor")) {
+					Toast.makeText(getApplicationContext(), "N·vötevnÌk nemÙûe pouûÌvaù t˙to funkciu.\nVyplÚte svoj profil.", Toast.LENGTH_LONG).show();
+				}
+
+				if (role.equalsIgnoreCase("student")) {
+					loadChatView();
+				}
+
+				if (role.equalsIgnoreCase("teacher")) {
+
+					if (isTeacherConfirmed) {
+						loadChatView();
+					} else {
+						Toast.makeText(getApplicationContext(), "NemÙûete pouûÌvaù t˙to funkciu.\nV·ö profil Ëak· na schv·lenie.", Toast.LENGTH_LONG).show();
+					}
+				}
+
+				if (role.equalsIgnoreCase("admin")) {
+					Toast.makeText(getApplicationContext(), "Admin nemoze pouzivat tuto funkciu", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
-		
 
 		feedbackButton.setOnClickListener(new OnClickListener() {
 
@@ -102,7 +119,7 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-		
+
 		settingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -110,7 +127,7 @@ public class MainActivity extends Activity {
 				loadSettingsView();
 			}
 		});
-		
+
 		adminButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -121,19 +138,18 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-		
-		
+
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
+
 		checkUser();
 	}
-	
-	private void checkUser(){
+
+	private void checkUser() {
 		final ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
 			loadLoginView();
@@ -144,36 +160,37 @@ public class MainActivity extends Activity {
 				public void done(ParseUser object, ParseException e) {
 					// TODO Auto-generated method stub
 					role = object.getString("Role");
-					isTeacherConfirmed = object.getBoolean("teacherConfirmation");
-					
+					isTeacherConfirmed = object
+							.getBoolean("teacherConfirmation");
+
 					if (role.equalsIgnoreCase("visitor")) {
 						adminButton.setVisibility(View.GONE);
-						chatButton.setEnabled(false);
+						//chatButton.setEnabled(false);
 					}
 
 					if (role.equalsIgnoreCase("student")) {
 						adminButton.setVisibility(View.GONE);
-						chatButton.setEnabled(true);
+						//chatButton.setEnabled(true);
 					}
 
 					if (role.equalsIgnoreCase("teacher")) {
-					
-						if(isTeacherConfirmed){
+
+						if (isTeacherConfirmed) {
 							adminButton.setVisibility(View.GONE);
-							chatButton.setEnabled(true);
+							//chatButton.setEnabled(true);
 						} else {
 							adminButton.setVisibility(View.GONE);
-							chatButton.setEnabled(false);
+							//chatButton.setEnabled(false);
 						}
 					}
-					
+
 					if (role.equalsIgnoreCase("admin")) {
 						adminButton.setVisibility(View.VISIBLE);
 					}
-					
+
 				}
 			});
-		
+
 		}
 	}
 
@@ -186,6 +203,11 @@ public class MainActivity extends Activity {
 
 	private void loadSettingsView() {
 		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+	}
+
+	private void loadChatView() {
+		Intent intent = new Intent(MainActivity.this, ChatActivity.class);
 		startActivity(intent);
 	}
 

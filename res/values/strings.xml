@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">UKF Nitra</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Prihlásenie</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Nastavenia</string>
     <string name="action_save_settings">Save</string>
     <string name="username_hint">Prihlasovacie meno</string>
     <string name="password_hint">Heslo</string>
@@ -16,7 +16,7 @@
     <string name="login_error_title">Error!</string>
     <string name="login_button_label">Prihlásiť sa</string>
     <string name="sign_up_text">Registrácia</string>
-    <string name="logout_label">Logout</string>
+    <string name="logout_label">Odhlásiť sa</string>
     <string name="title_activity_sign_up">Registrácia</string>
     <string name="title_activity_main">UKF Nitra</string>
     <string name="title_activity_password_reset">Zabudnuté heslo</string>

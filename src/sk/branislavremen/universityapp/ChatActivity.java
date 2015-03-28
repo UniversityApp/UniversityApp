@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChatActivity extends Activity {
@@ -38,6 +39,7 @@ public class ChatActivity extends Activity {
 	
 	String lastMsg;
 
+	TextView room;
 	private EditText etMessage;
 	private Button btSend;
 
@@ -55,6 +57,8 @@ public class ChatActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
 
+		room = (TextView) findViewById(R.id.tvRoom);
+		
 		startWithCurrentUser();
 
 		handler.postDelayed(runnable, 500);
@@ -87,11 +91,6 @@ public class ChatActivity extends Activity {
 
 				isTeacherConfirmed = object.getBoolean("teacherConfirmation");
 
-				if (role.equalsIgnoreCase("visitor")) {
-					finish();
-					// toast
-				}
-
 				if (role.equalsIgnoreCase("student")) {
 					String studyProgramme = object.getString("StudyProgramme");
 					String rocnik = object.getString("Rocnik");
@@ -99,9 +98,9 @@ public class ChatActivity extends Activity {
 						finish();
 						// Toast
 					} else {
-						currentRoom = studyProgramme + " (" + rocnik + ")";
+						currentRoom = studyProgramme + " (" + rocnik + " roèník)";
 						Log.d("chat", "student in room " + currentRoom);
-
+						room.setText(currentRoom);
 					}
 
 				}
@@ -109,16 +108,12 @@ public class ChatActivity extends Activity {
 				if (role.equalsIgnoreCase("teacher")) {
 
 					if (isTeacherConfirmed) {
-
-					} else {
+						Toast.makeText(getApplicationContext(), "Táto fukcia je vo vývoji.", Toast.LENGTH_LONG).show();
 						finish();
-						// toast
-					}
+					} 
 				}
 
-				if (role.equalsIgnoreCase("admin")) {
-
-				}
+			
 
 				setupMessagePosting();
 
