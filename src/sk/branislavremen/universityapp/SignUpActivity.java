@@ -68,7 +68,7 @@ public class SignUpActivity extends Activity {
 	                    setProgressBarIndeterminateVisibility(true);
 	                    
 	                	ByteArrayOutputStream stream = new ByteArrayOutputStream();
-	                	Bitmap pictureBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.default_avatar);
+	                	Bitmap pictureBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar);
 	            		pictureBitMap.compress(Bitmap.CompressFormat.JPEG, 75, stream);
 	            		byte[] data = stream.toByteArray();
 

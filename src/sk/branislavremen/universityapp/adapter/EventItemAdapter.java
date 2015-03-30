@@ -203,7 +203,7 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener, Fi
 			int hours = calendar.get(Calendar.HOUR_OF_DAY);
 			int minutes = calendar.get(Calendar.MINUTE);
 
-			if (hours == 0 && minutes == 0) {
+			if ((hours == 1 && minutes == 0) || (hours == 2 && minutes == 0)) {
 				datum1 = formatBezHodin.format(date1);
 			} else {
 				datum1 = format.format(date1);
@@ -213,7 +213,7 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener, Fi
 			hours = calendar.get(Calendar.HOUR_OF_DAY);
 			minutes = calendar.get(Calendar.MINUTE);
 
-			if (hours == 0 && minutes == 0) {
+			if ((hours == 1 && minutes == 0) || (hours == 2 && minutes == 0)) {
 				datum2 = formatBezHodin.format(date2);
 			} else {
 				datum2 = format.format(date2);
@@ -226,7 +226,7 @@ public class EventItemAdapter extends BaseAdapter implements OnClickListener, Fi
 			int hours = calendar.get(Calendar.HOUR_OF_DAY);
 			int minutes = calendar.get(Calendar.MINUTE);
 
-			if (hours == 0 && minutes == 0) {
+			if ((hours == 1 && minutes == 0) || (hours == 2 && minutes == 0)) {
 				datum1 = formatBezHodin.format(date1);
 			} else {
 				datum1 = format.format(date1);

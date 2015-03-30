@@ -8,9 +8,9 @@
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/secondary"
         android:layout_gravity="center_horizontal"
         android:lines="1"
+        android:textColor="@color/secondary"
         android:textSize="12sp" />
 
     <LinearLayout
@@ -23,29 +23,25 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:contentDescription="@string/app_name"
-            android:background="@drawable/ic_launcher"
-            android:src="@drawable/circle" />
+            android:src="@drawable/avatar" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="8dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
                 android:text="name"
-               
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tvBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-            
                 android:text="body"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -56,7 +52,7 @@
             android:layout_height="64dp"
             android:layout_marginLeft="-64dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/avatar" />
     </LinearLayout>
 
 </LinearLayout>

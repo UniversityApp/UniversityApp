@@ -339,10 +339,18 @@ public class SettingsActivity extends Activity {
 	/* nacitanie dat do UI - koniec */
 
 	public void save() {
-		if (program == null | program.length() < 1) {
-			Toast.makeText(getApplicationContext(), "Vyplnte študium", Toast.LENGTH_SHORT).show();
+
+		if (nameTextView.getText().toString().matches("")) {
+			Toast.makeText(getApplicationContext(), "Vyplòte meno",
+					Toast.LENGTH_SHORT).show();
 		} else {
-			setUserData();
+			if (roleSpinner.getSelectedItemId() == 1
+					&& (programTextView.getText().toString().matches(""))) {
+				Toast.makeText(getApplicationContext(), "Vyplnte študium",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				setUserData();
+			}
 		}
 	}
 

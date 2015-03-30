@@ -28,7 +28,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_add_photo" />
+                android:src="@drawable/avatar" />
 
             <TextView
                 android:layout_width="match_parent"
