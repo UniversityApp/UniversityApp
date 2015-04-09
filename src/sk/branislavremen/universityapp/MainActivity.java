@@ -87,7 +87,10 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Log.d("role", "role: " + role);
 				if (role.equalsIgnoreCase("visitor")) {
-					Toast.makeText(getApplicationContext(), "N·vötevnÌk nemÙûe pouûÌvaù t˙to funkciu.\nVyplÚte svoj profil.", Toast.LENGTH_LONG).show();
+					Toast.makeText(
+							getApplicationContext(),
+							"N·vötevnÌk nemÙûe pouûÌvaù t˙to funkciu.\nVyplÚte svoj profil.",
+							Toast.LENGTH_LONG).show();
 				}
 
 				if (role.equalsIgnoreCase("student")) {
@@ -99,12 +102,17 @@ public class MainActivity extends Activity {
 					if (isTeacherConfirmed) {
 						loadChatView();
 					} else {
-						Toast.makeText(getApplicationContext(), "NemÙûete pouûÌvaù t˙to funkciu.\nV·ö profil Ëak· na schv·lenie.", Toast.LENGTH_LONG).show();
+						Toast.makeText(
+								getApplicationContext(),
+								"NemÙûete pouûÌvaù t˙to funkciu.\nV·ö profil Ëak· na schv·lenie.",
+								Toast.LENGTH_LONG).show();
 					}
 				}
 
 				if (role.equalsIgnoreCase("admin")) {
-					Toast.makeText(getApplicationContext(), "Admin nemoze pouzivat tuto funkciu", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(),
+							"Admin nemoze pouzivat tuto funkciu",
+							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -134,7 +142,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this,
-						FeedbackActivity.class);
+						AdminActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -158,41 +166,31 @@ public class MainActivity extends Activity {
 
 				@Override
 				public void done(ParseUser object, ParseException e) {
-					// TODO Auto-generated method stub
+
 					role = object.getString("Role");
 					isTeacherConfirmed = object
 							.getBoolean("teacherConfirmation");
 
 					if (role.equalsIgnoreCase("visitor")) {
 						adminButton.setVisibility(View.GONE);
-						//chatButton.setEnabled(false);
 					}
 
 					if (role.equalsIgnoreCase("student")) {
 						adminButton.setVisibility(View.GONE);
-						//chatButton.setEnabled(true);
 					}
 
 					if (role.equalsIgnoreCase("teacher")) {
-
 						if (isTeacherConfirmed) {
 							adminButton.setVisibility(View.GONE);
-							//chatButton.setEnabled(true);
 						} else {
 							adminButton.setVisibility(View.GONE);
-							//chatButton.setEnabled(false);
 						}
 					}
 
 					if (role.equalsIgnoreCase("admin")) {
 						adminButton.setVisibility(View.VISIBLE);
 					}
-
-				}
-			});
-
-		}
-	}
+			} }); } }
 
 	private void loadLoginView() {
 		Intent intent = new Intent(this, LoginActivity.class);

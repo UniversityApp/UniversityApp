@@ -56,8 +56,6 @@ public class PlaceActivity extends ListActivity {
 		itemAdapter = new PlaceItemAdapter(this, pd_list);
 		setListAdapter(itemAdapter);
 
-		
-		
 		refreshPlaces();
 	}
 

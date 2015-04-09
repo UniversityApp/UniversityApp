@@ -14,8 +14,6 @@ import sk.branislavremen.universityapp.vo.PostData;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import at.theengine.android.simple_rss2_android.RSSItem;
 import at.theengine.android.simple_rss2_android.SimpleRss2Parser;
@@ -58,7 +56,7 @@ public class PostsActivity extends ListActivity {
 	public void getRssLinks() {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("RSS");
 		setProgressBarIndeterminateVisibility(true);
-
+		
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> rssLinks, ParseException e) {
@@ -73,17 +71,16 @@ public class PostsActivity extends ListActivity {
 						Log.e("tag", object.getString("url"));
 					}
 
-					// stiahnut xml data a parsovat ich
+					// stiahnut xml data a parsovat ich/
 
 					for (String link : rss_links_list) {
-						// new RssDataController().execute(link);
 						Log.d("Link", link);
 						SimpleRss2Parser parser = new SimpleRss2Parser(link,
 								new SimpleRss2ParserCallback() {
 
 									@Override
 									public void onFeedParsed(List<RSSItem> items) {
-										// TODO Auto-generated method stub
+
 										for (int i = 0; i < items.size(); i++) {
 											Log.d("SimpleRss2ParserDemo", items
 													.get(i).getTitle());

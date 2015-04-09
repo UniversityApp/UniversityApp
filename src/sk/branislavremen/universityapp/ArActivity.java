@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import sk.branislavremen.universityapp.vo.PlaceData;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -16,9 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +61,7 @@ OnClickListener{
 		float f = 1000;
 		mBeyondarFragment.setDistanceFactor(6);
 		mBeyondarFragment.setMaxDistanceToRender(f);
-		Log.d("max distance2", mBeyondarFragment.getDistanceFactor() + "");
+		Log.d("max distance2", mBeyondarFragment.getDistanceFactor() + "");	
 		sharedWorld = new World(this);
 
 		// The user can set the default bitmap. This is useful if you are

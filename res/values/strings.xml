@@ -38,12 +38,11 @@
     <string name="title_activity_place">Miesta</string>
     <string name="title_activity_feedback">Spätná väzba</string>
     <string name="title_activity_ar">Rozšírená realita</string>
-     <!-- User interface labels and strings -->
+    <!-- User interface labels and strings -->
 
 
     <!-- Latitude, longitude format -->
     <string name="latitude_longitude">%1$.8f, %2$.8f</string>
+    <string name="title_activity_admin">AdminActivity</string>
 
-
-    
 </resources>

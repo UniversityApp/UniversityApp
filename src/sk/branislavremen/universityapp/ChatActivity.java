@@ -16,8 +16,13 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChatActivity extends Activity {
+	
+	final int RESULT_STUDY_DATA = 2;
 
 	ParseUser currentUser;
 	String currentRoom;
@@ -64,7 +71,7 @@ public class ChatActivity extends Activity {
 		handler.postDelayed(runnable, 500);
 	}
 
-	// Defines a runnable which is run every 100ms
+	// Definujeme runnable ktoré sa vykoná každých 15000ms	
 	private Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
@@ -103,14 +110,18 @@ public class ChatActivity extends Activity {
 						room.setText(currentRoom);
 					}
 
-				}
+				} 
 
 				if (role.equalsIgnoreCase("teacher")) {
 
 					if (isTeacherConfirmed) {
-						Toast.makeText(getApplicationContext(), "Táto fukcia je vo vývoji.", Toast.LENGTH_LONG).show();
+						//Toast.makeText(getApplicationContext(), "Ucitel.", Toast.LENGTH_LONG).show();
+						Intent intent = new Intent(ChatActivity.this,SettingsStudyActivity.class);
+						startActivityForResult(intent, RESULT_STUDY_DATA);
+						//	finish();
+					} else {
 						finish();
-					} 
+					}
 				}
 
 			
@@ -174,6 +185,39 @@ public class ChatActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		try {
+			// When an Image is picked
+			if (resultCode == RESULT_OK && null != data) {
+
+				if (requestCode == RESULT_STUDY_DATA) {
+					// navrat zo settings study activity
+					String program = data.getStringExtra("program");
+					String rocnik = data.getStringExtra("rocnik");
+					//openChat();
+					
+					if (program == null || rocnik == null) {
+						finish();
+						// Toast
+					} else {
+						currentRoom = program + " (" + rocnik + " roèník)";
+						Log.d("chat", "Teacher in room " + currentRoom);
+						room.setText(currentRoom);
+					}
+					
+				}
+
+			} else {
+
+			}
+		} catch (Exception e) {
+			Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+					.show();
+		}
+
 	}
 
 }
