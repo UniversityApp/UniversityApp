@@ -1,5 +1,7 @@
 # Univerzitná Aplikácia UKF Nitra #
 
+<h3>Podpora aplikacie bola skoncena. Aplikacia bola stiahnute z obchodu Play Store</h3>
+
 <i>Pozn.: Vzniklo v rámci Diplomovej práce na KI FPV UKF Nitra.</i>
 
 Dostupné na Play Store: <br />
